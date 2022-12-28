@@ -46,14 +46,14 @@ class DateContoller extends Controller
         $selectedDates1 = array_values($checkbox1);
         $selectedDates2 = array_values($checkbox2);
         $mergedArray = array_merge($selectedDates1, $selectedDates2);
-
-        usort($mergedArray, function ($a, $b) {
+        $unique_dates = array_unique($mergedArray);
+        usort($unique_dates, function ($a, $b) {
             $date1 = new DateTime($a);
             $date2 = new DateTime($b);
             return $date1 <=> $date2;
         });
         $date = Carbon::now();
 
-        return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2'));
+        return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates'));
     }
 }
