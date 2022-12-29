@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use DateTime;
+use App\Models\Emplopyee;
 
 use Illuminate\Http\Request;
 
@@ -39,13 +40,15 @@ class DateContoller extends Controller
 
         $checkbox1 = $request->input('checkbox1', []);
         $checkbox2 = $request->input('checkbox2', []);
-
+        $fileNo = $request->fileNo;
+        $employee = Emplopyee::where('fileNo', $fileNo)->first();
         // $checkbox1 and $checkbox2 are arrays of dates that were selected in the form
-
         // You can use the array_values function to get an array of just the selected dates
         $selectedDates1 = array_values($checkbox1);
         $selectedDates2 = array_values($checkbox2);
         $mergedArray = array_merge($selectedDates1, $selectedDates2);
+        $firstValue = reset($mergedArray);
+        $lastValue = end($mergedArray);
         $unique_dates = array_unique($mergedArray);
         usort($unique_dates, function ($a, $b) {
             $date1 = new DateTime($a);
@@ -54,6 +57,6 @@ class DateContoller extends Controller
         });
         $date = Carbon::now();
 
-        return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates'));
+        return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
     }
 }

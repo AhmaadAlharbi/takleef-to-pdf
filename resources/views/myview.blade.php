@@ -20,13 +20,21 @@
 
 <body>
     <h1 class="text-center mt-4">SHIFT A</h1>
-    <div class="row container">
-        <div class="col-md-5">
-            <img src="{{ asset('images/booking.svg') }}" alt="Image">
+    <form method="POST" action="/submit">
 
-        </div>
-        <div class="col-md-7 text-center mt-5">
-            <form method="POST" action="/submit">
+        <div class="row container">
+
+            <div class="col-md-5">
+                <img src="{{ asset('images/booking.svg') }}" alt="Image">
+                <div class="text-center">
+                    <label>ادخل رقم الملف الخاص بالموظف</label>
+                    <input name="fileNo" type="text" class="form-control d-block mt-2">
+                    <button class="btn btn-primary btn-lg mt-2 " type="submit">Save</button>
+
+                </div>
+
+            </div>
+            <div class="col-md-7 text-center mt-5">
                 @csrf
                 <table class="table table-striped text-center table-bordered  table-hover table-responsive">
                     <thead class="thead-dark">
@@ -104,10 +112,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                <button class="btn btn-primary btn-lg " type="submit">Save</button>
-            </form>
+            </div>
+
         </div>
-    </div>
+    </form>
 
 </body>
 

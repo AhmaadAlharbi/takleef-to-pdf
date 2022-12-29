@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DateContoller;
 use Illuminate\Support\Facades\Route;
+use Dompdf\Dompdf;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +22,18 @@ Route::get('/', function () {
 
 Route::get('/dates', [DateContoller::class, 'index']);
 Route::post('/submit', [DateContoller::class, 'submit']);
-Route::get('/show', [DateContoller::class, 'show']);
+// Route::post('/generate-pdf', function (Request $request) {
+//     $dompdf = new Dompdf();
+
+//     // Load the HTML
+//     $dompdf->loadHtml($request->html);
+
+//     // Render the PDF
+//     $dompdf->render();
+
+//     // Output the PDF as a download
+//     $pdf = $dompdf->output();
+//     return response($pdf, 200)
+//         ->header('Content-Type', 'application/pdf')
+//         ->header('Content-Disposition', 'attachment; filename="output.pdf"');
+// });
