@@ -22,18 +22,4 @@ Route::get('/', function () {
 
 Route::get('/dates', [DateContoller::class, 'index']);
 Route::post('/submit', [DateContoller::class, 'submit']);
-// Route::post('/generate-pdf', function (Request $request) {
-//     $dompdf = new Dompdf();
-
-//     // Load the HTML
-//     $dompdf->loadHtml($request->html);
-
-//     // Render the PDF
-//     $dompdf->render();
-
-//     // Output the PDF as a download
-//     $pdf = $dompdf->output();
-//     return response($pdf, 200)
-//         ->header('Content-Type', 'application/pdf')
-//         ->header('Content-Disposition', 'attachment; filename="output.pdf"');
-// });
+Route::get('/generatepdf/{id}', [DateContoller::class, 'generatepdf'])->name('user.pdf');

@@ -56,6 +56,8 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
 
+    <a href="{{route('user.pdf',['id'=>$employee->fileNo])}}" class="btn btn-danger">Generate
+        PDF</a>
 
     <div class="row container text-center mx-auto d-block" style="margin-top:50px;">
         <div id="print" class="row">
@@ -166,6 +168,7 @@
                 @php
                 $i = 0;
                 @endphp
+                @isset($unique_dates)
                 @foreach($unique_dates as $date)
 
                 <tbody>
@@ -246,6 +249,7 @@
 
                 </tbody>
                 @endforeach
+                @endisset
 
             </table>
         </div>
@@ -254,6 +258,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+
 </body>
 
 </html>
