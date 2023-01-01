@@ -3,18 +3,32 @@
 
 <head>
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet"> -->
+    <meta charset="UTF-8">
 
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
+        /* @font-face {
+            font-family: 'Cairo';
+            src: url('{{ $font_path }}') format('truetype');
+        } */
 
+
+        @font-face {
+            font-family: 'Cairo';
+            src: url('https://fonts.googleapis.com/css2?family=Cairo&display=swap') format('truetype');
+        }
+
+
+
+        body {
+            font-family: 'Cairo', Arial, Helvetica, sans-serif !important;
         }
 
 
@@ -25,27 +39,15 @@
             background-position: center;
         }
 
-        button {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-
-        }
-
-
-
         @media print {
             @page {
-                margin-left: 0.5in;
-                margin-right: 0.5in;
-                margin-top: 0;
-                margin-bottom: 0;
+                margin: 1cm;
+            }
+
+            #print {
+                background-image: url("/images/background.png");
+                background-size: cover;
+                background-position: center;
             }
 
             .page:last-of-type {
@@ -64,36 +66,6 @@
                 page-break-after: always;
             }
 
-            @page {
-
-                -webkit-print-color-adjust: exact;
-                -moz-print-color-adjust: exact;
-                -ms-print-color-adjust: exact;
-                -o-print-color-adjust: exact;
-            }
-
-            body {
-                -webkit-print-color-adjust: exact;
-                font-size: 10pt;
-
-            }
-
-            header,
-            footer {
-                display: none;
-            }
-
-            #print {
-
-                background-image: url("https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/background.png");
-                background-size: cover;
-                background-position: center;
-            }
-
-            .page-break {
-                page-break-after: always;
-            }
-
             table {
                 table-layout: fixed;
                 width: 100%;
@@ -101,24 +73,18 @@
                 font-size: 16px;
 
             }
+        }
 
-            table {
-                page-break-inside: auto
-            }
-
-            tr {
-                page-break-inside: avoid;
-                page-break-after: auto
-            }
-
-            .page {
-                page-break-after: always;
-            }
-
-            img {
-                max-width: 100%;
-            }
-
+        button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
 
         }
     </style>
@@ -129,15 +95,15 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
     <button onclick="window.print()">Print</button>
-    <!-- 
-    <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
-        PDF</a> -->
 
-    <div class="row container    border-dark text-center mx-auto d-block">
-        <div id="print" class="row page ">
-            <img src="{{ asset('images/header.png') }}" alt="Image">
-            <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
-            <h4>تكليف بمهمة خارج مقر العمل</h4>
+    <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
+        PDF</a>
+
+    <div class="row  container  border-dark text-center mx-auto d-block" style="margin-top:50px;">
+        <div id="print" class="row page-break">
+            <img src="https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/header.png" alt="Image">
+            <p class="mt-5">قطاع شبكات النقل الكهربائية</p>
+            <p>تكليف بمهمة خارج مقر العمل</p>
             <div class="row mt-4 mb-5">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</h5>
@@ -161,20 +127,19 @@
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-                <p class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
+                <h3 class="d-flex justify-content-end " style="margin-top:150px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
-                </p>
+                </h3>
             </div>
-            <div>
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:40px;" alt="Image">
+            <div style="margin-top: 130px;">
+                <img src="https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/footer.png" alt="Image">
 
             </div>
         </div>
 
-
         {{-- page2 --}}
-        <div class="row page page-break mx-auto d-block">
-            <img src="{{ asset('images/header2.png') }}" alt="Image">
+        <div class="row page-break mx-auto d-block">
+            <img style="margin-top:200px;" src="https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/header2.png" alt="Image">
             <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
             <h4>تكليف بمهمة خارج مقر العمل</h4>
             <div class="row mt-4 mb-5">
@@ -199,7 +164,7 @@
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-                <h3 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
+                <h3 class="d-flex justify-content-end " style="margin-top:150px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
                 </h3>
                 <h5 class="d-flex justify-content-start mr-5 " style="margin-top:60px;">
@@ -209,8 +174,9 @@
 
         </div>
         {{-- page3 --}}
-        <div class="row page  page-break mx-auto d-block">
-            <img src="{{ asset('images/header2.png') }}" alt="Image">
+        <div class="row page  mx-auto d-block">
+            <img style="margin-top:300px;" src="https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/header2.png" alt="Image">
+
             <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
             <h4>تكليف بمهمة خارج مقر العمل</h4>
             <div class="row mt-4 mb-5">
@@ -320,20 +286,12 @@
                 @endisset
 
             </table>
-            <div class="row mt-5">
-                <div class="col">
-                    <p>موافقة رئيس القسم</p>
-                </div>
-                <div class="col">
-                    <p>اعتماد مدير الادراة</p>
-
-                </div>
-            </div>
         </div>
+
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-    </script>
+
 
 </body>
 

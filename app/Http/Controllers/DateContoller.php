@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use DateTime;
 use App\Models\Emplopyee;
 use Barryvdh\DomPDF\Facade\Pdf;
+// use PDF;
+use Dompdf\Dompdf;
+use ArPHP\I18N\Arabic;
 
 use Illuminate\Http\Request;
 
@@ -41,7 +44,6 @@ class DateContoller extends Controller
     }
     public function submit(Request $request)
     {
-        $data = ['key' => 'value'];
 
         $checkbox1 = $request->input('checkbox1', []);
         $checkbox2 = $request->input('checkbox2', []);
@@ -49,46 +51,73 @@ class DateContoller extends Controller
         if ($fileNo == null) {
             $fileNo = '48531';
         }
-        global $employee;
+
         $employee = Emplopyee::where('fileNo', $fileNo)->first();
         // $checkbox1 and $checkbox2 are arrays of dates that were selected in the form
         // You can use the array_values function to get an array of just the selected dates
-        global $selectedDates1;
-        $selectedDates1 = $selectedDates1a = array_values($checkbox1);
-        global $selectedDates2;
+        $request->session()->put('employee', $employee);
+
+        $selectedDates1 = array_values($checkbox1);
+        $request->session()->put('selectedDates1', $selectedDates1);
+
         $selectedDates2 = array_values($checkbox2);
-        global $mergedArray;
+        $request->session()->put('selectedDates2', $selectedDates2);
+
         $mergedArray  = array_merge($selectedDates1, $selectedDates2);
-        global $firstValue;
-        $firstValue = $firstValue1 = reset($mergedArray);
-        global $lastValue;
-        $lastValue = $lastValue1 =  end($mergedArray);
-        global $unique_dates;
-        $unique_dates = $unique_dates1 = array_unique($mergedArray);
+        $request->session()->put('mergedArray', $mergedArray);
+
+        $firstValue = reset($mergedArray);
+        $request->session()->put('firstValue', $firstValue);
+
+        $lastValue  =  end($mergedArray);
+        $request->session()->put('lastValue', $lastValue);
+
+        $unique_dates  = array_unique($mergedArray);
         usort($unique_dates, function ($a, $b) {
             $date1 = new DateTime($a);
             $date2 = new DateTime($b);
             return $date1 <=> $date2;
         });
-        $date = Carbon::now();
+        $request->session()->put('unique_dates', $unique_dates);
 
-        return view('show', compact('mergedArray', 'data', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
+        $date = Carbon::now();
+        return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
     }
 
-    public function generatepdf($id)
+    public function generatepdf(Request $request)
     {
-        $employee = Emplopyee::where('fileNo', $id)->first();
-        global $firstValue;
-        global $lastValue;
-        $firstValue11 = $firstValue;
-        $lastValue11 = $lastValue;
+        set_time_limit(120);
+
+        $employee =   $request->session()->get('employee');
+        $firstValue = $request->session()->get('firstValue');
+        $lastValue = $request->session()->get('lastValue');
+        $selectedDates1 = $request->session()->get('selectedDates1');
+        $selectedDates2 = $request->session()->get('selectedDates2');
+        $unique_dates = $request->session()->get('unique_dates');
+        $font_path = asset('fonts/Cairo-Regular.ttf');
+
         $data = [
             'employee' => $employee,
-            'firstValue' => $firstValue11,
-            'lastValue' => $lastValue11
+            'firstValue' =>  $firstValue,
+            'lastValue' =>  $lastValue,
+            'selectedDates1' => $selectedDates1,
+            'selectedDates2' => $selectedDates2,
+            'unique_dates' => $unique_dates,
+            'font_path' => $font_path
 
         ];
-        $pdf = PDF::loadView('show', $data);
+
+        $dompdf = new Dompdf([
+            'enable_fontsubsetting' => false
+        ]);
+        $fonts_path = public_path('fonts');
+
+        $dompdf->set_option('defaultFont', 'Cairo');
+        $dompdf->set_option('isRtl', true);
+
+        $dompdf->set_option('fontPath', $fonts_path);
+
+        $pdf = PDF::loadView('showpdf', $data);
 
         // return $pdf->download('d.pdf');
         return $pdf->stream();

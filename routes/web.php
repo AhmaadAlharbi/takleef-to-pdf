@@ -22,4 +22,4 @@ Route::get('/', function () {
 
 Route::get('/dates', [DateContoller::class, 'index']);
 Route::post('/submit', [DateContoller::class, 'submit']);
-Route::get('/generatepdf/{id}', [DateContoller::class, 'generatepdf'])->name('user.pdf');
+Route::get('/generatepdf', [DateContoller::class, 'generatepdf'])->name('user.pdf');
