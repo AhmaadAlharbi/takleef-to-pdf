@@ -43,10 +43,14 @@
 
 
         @media print {
+            button {
+                display: none;
+            }
+
             @page {
                 margin-left: 0.5in;
                 margin-right: 0.5in;
-                margin-top: 0;
+                margin-top: 1cm;
                 margin-bottom: 0;
             }
 
@@ -138,8 +142,8 @@
     <div class="row container    border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img src="{{ asset('images/header.png') }}" alt="Image">
-            <h3 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h3>
-            <h3 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h3>
+            <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
+            <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
             <div class="row mt-4 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</h5>
@@ -150,25 +154,25 @@
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h3 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h3>
+            <h4 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h4>
             <div class="mt-3">
                 <h4>الاسم:{{$employee->name}}</h4>
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
                 <p class="mt-5">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
-                    لقسم (الوقاية ) – إدارة صيانة محطات التحويل الرئيسية – للفترة</p>
+                    لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
                 <p>
-                    {{$firstValue}} إلى {{$lastValue}}
+                    للفترة- {{$firstValue}} إلى {{$lastValue}}
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-                <h3 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
+                <h5 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
-                </h3>
+                </h5>
             </div>
             <div>
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:40px;" alt="Image">
+                <img src="{{ asset('images/footer.png') }}" style="margin-top:80px;" alt="Image">
 
             </div>
         </div>
@@ -177,45 +181,46 @@
         {{-- page2 --}}
         <div class="row page page-break mx-auto d-block">
             <img src="{{ asset('images/header2.png') }}" alt="Image">
-            <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
-            <h4>تكليف بمهمة خارج مقر العمل</h4>
-            <div class="row mt-4 mb-5">
+            <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
+            <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
+            <div class="row mt-4 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</h5>
                     <h5>تحية طيبة وبعد</h5>
+
                 </div>
                 <div class="col">
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h4>الموضوع: تكليف بمهمة خارج مقر العمل</h4>
-            <div class="mt-5">
+            <h4 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h4>
+            <div class="mt-3">
                 <h4>الاسم:{{$employee->name}}</h4>
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
                 <p class="mt-5">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
-                    لقسم (الوقاية ) – إدارة صيانة محطات التحويل الرئيسية – للفترة</p>
+                    لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
                 <p>
-                    {{$firstValue}} إلى {{$lastValue}}
+                    للفترة- {{$firstValue}} إلى {{$lastValue}}
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-                <h3 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
-                    الرئيسية
-                </h3>
-                <h5 class="d-flex justify-content-start mr-5 " style="margin-top:60px;">
-                    المسؤول المباشر
-                </h5>
-            </div>
 
+            </div>
+            <h3 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
+                الرئيسية
+            </h3>
+            <h5 class="d-flex justify-content-start mr-5 " style="margin-top:60px;">
+                المسؤول المباشر
+            </h5>
         </div>
         {{-- page3 --}}
         <div class="row page  page-break mx-auto d-block">
             <img src="{{ asset('images/header2.png') }}" alt="Image">
-            <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
-            <h4>تكليف بمهمة خارج مقر العمل</h4>
-            <div class="row mt-4 mb-5">
+            <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
+            <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
+            <div class="row mt-4 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</h5>
                     <h5>تحية طيبة وبعد</h5>
@@ -225,8 +230,8 @@
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h4>الموضوع: تكليف بمهمة خارج مقر العمل</h4>
-            <div class="mt-5">
+            <h4 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h4>
+            <div class="mt-3">
                 <h4>الاسم:{{$employee->name}}</h4>
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
@@ -237,8 +242,8 @@
                         <th>#</th>
                         <th>اليوم</th>
                         <th>التاريخ</th>
-                        <th>7:00 AM</th>
-                        <th>7:00 PM</th>
+                        <th>حضور</th>
+                        <th>انصراف</th>
                     </tr>
                 </thead>
                 @php
@@ -333,6 +338,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>

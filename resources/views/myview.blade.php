@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
-        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -22,7 +21,7 @@
     <h1 class="text-center mt-4">SHIFT A</h1>
     <form method="POST" action="/submit">
 
-        <div class="row container">
+        <div class="row container text-center mx-auto">
 
             <div class="col-md-5">
                 <img src="{{ asset('images/booking.svg') }}" alt="Image">
@@ -95,16 +94,12 @@
                             <td>{{ $date->format('Y-m-d') }}</td>
                             <td>
 
-                                <input class="form-check-input" type="checkbox"
-                                    name="checkbox1[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}"
-                                    @if(in_array($date->format('Y-m-d'), $disabledDates))
+                                <input class="form-check-input" type="checkbox" name="checkbox1[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}" @if(in_array($date->format('Y-m-d'), $disabledDates))
                                 disabled
                                 @endif>
                             </td>
                             <td>
-                                <input class="form-check-input" type="checkbox"
-                                    name="checkbox2[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}"
-                                    @if(in_array($date->format('Y-m-d'), $disabledDates))
+                                <input class="form-check-input" type="checkbox" name="checkbox2[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}" @if(in_array($date->format('Y-m-d'), $disabledDates))
                                 disabled
                                 @endif>
                             </td>
