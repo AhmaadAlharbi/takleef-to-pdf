@@ -40,6 +40,8 @@
 
 
 
+
+
         @media print {
             @page {
                 margin-left: 0.5in;
@@ -136,9 +138,9 @@
     <div class="row container    border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img src="{{ asset('images/header.png') }}" alt="Image">
-            <h3 class="mt-5">قطاع شبكات النقل الكهربائية</h3>
-            <h4>تكليف بمهمة خارج مقر العمل</h4>
-            <div class="row mt-4 mb-5">
+            <h3 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h3>
+            <h3 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h3>
+            <div class="row mt-4 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</h5>
                     <h5>تحية طيبة وبعد</h5>
@@ -148,8 +150,8 @@
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h4>الموضوع: تكليف بمهمة خارج مقر العمل</h4>
-            <div class="mt-5">
+            <h3 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h3>
+            <div class="mt-3">
                 <h4>الاسم:{{$employee->name}}</h4>
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
@@ -161,9 +163,9 @@
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-                <p class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
+                <h3 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
-                </p>
+                </h3>
             </div>
             <div>
                 <img src="{{ asset('images/footer.png') }}" style="margin-top:40px;" alt="Image">
