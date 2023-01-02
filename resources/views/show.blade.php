@@ -5,25 +5,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
 
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: white;
+        }
 
-
-        #print {
+        /* #print {
             background: url("/images/background.png");
             background-size: cover;
             background-position: center;
-        }
+        } */
 
         button {
             background-color: #4CAF50;
@@ -38,21 +43,13 @@
 
         }
 
-
-
-
-
         @media print {
+
             button {
                 display: none;
             }
 
-            @page {
-                margin-left: 0.5in;
-                margin-right: 0.5in;
-                margin-top: 1cm;
-                margin-bottom: 0;
-            }
+
 
             .page:last-of-type {
                 page-break-after: avoid;
@@ -71,17 +68,12 @@
             }
 
             @page {
+                /* Letter size paper */
 
-                -webkit-print-color-adjust: exact;
-                -moz-print-color-adjust: exact;
-                -ms-print-color-adjust: exact;
-                -o-print-color-adjust: exact;
             }
 
             body {
                 -webkit-print-color-adjust: exact;
-                font-size: 10pt;
-
             }
 
             header,
@@ -89,33 +81,33 @@
                 display: none;
             }
 
-            #print {
+            /* #print {
 
                 background-image: url("https://raw.githubusercontent.com/AhmaadAlharbi/takleef-to-pdf/main/public/images/background.png");
                 background-size: cover;
                 background-position: center;
-            }
+            } */
 
             .page-break {
                 page-break-after: always;
             }
 
-            table {
+            /* table {
                 table-layout: fixed;
                 width: 100%;
                 max-width: 800px;
                 font-size: 16px;
 
-            }
+            } */
 
-            table {
-                page-break-inside: auto
+            /* table {
+                page-break-inside: auto;
             }
 
             tr {
                 page-break-inside: avoid;
                 page-break-after: auto
-            }
+            } */
 
             .page {
                 page-break-after: always;
@@ -141,45 +133,47 @@
 
     <div class="row container    border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
-            <img src="{{ asset('images/header.png') }}" alt="Image">
-            <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
-            <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
-            <div class="row mt-4 ">
+            <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">
+            <h5 class=" font-weight-bold mb-3 ">قطاع شبكات النقل الكهربائية</h5>
+            <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
+            <div class="row mb-3 ">
                 <div class="col">
-                    <h5>السيد / مدير ادارة شؤون العاملين</h5>
-                    <h5>تحية طيبة وبعد</h5>
+                    <h5>السيد / مدير ادارة شؤون العاملين</>
+                        <h5>تحية طيبة وبعد</h5>
 
                 </div>
                 <div class="col">
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h4 class="font-weight-bold">الموضوع/ تكليف بمهمة خارج مقر العمل</h4>
-            <div class="mt-3">
-                <h4>الاسم:{{$employee->name}}</h4>
-                <h4>الرقم المدني:{{$employee->civilId}}</h4>
-                <h4>رقم الملف:{{$employee->fileNo}}</h4>
-                <p class="mt-5">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
+            <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
+            <div class="">
+                <p>الاسم:{{$employee->name}}</p>
+                <p>الرقم المدني:{{$employee->civilId}}</p>
+                <p>رقم الملف:{{$employee->fileNo}}</p>
+                <p class="">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
                     لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
                 <p>
-                    للفترة- {{$firstValue}} إلى {{$lastValue}}
+                    للفترة {{$firstValue}} إلى {{$lastValue}}
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
+
                 <h5 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
                 </h5>
+
             </div>
-            <div>
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:80px;" alt="Image">
+            <div class="footer-img">
+                <img src="{{ asset('images/footer.png') }}" style="margin-top:200px;" alt="Image">
 
             </div>
         </div>
 
 
         {{-- page2 --}}
-        <div class="row page page-break mx-auto d-block">
+        {{-- <div class="row page page-break mx-auto d-block">
             <img src="{{ asset('images/header2.png') }}" alt="Image">
             <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
             <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
@@ -214,10 +208,10 @@
             <h5 class="d-flex justify-content-start mr-5 " style="margin-top:60px;">
                 المسؤول المباشر
             </h5>
-        </div>
+        </div> --}}
         {{-- page3 --}}
         <div class="row page  page-break mx-auto d-block">
-            <img src="{{ asset('images/header2.png') }}" alt="Image">
+            {{-- <img src="{{ asset('images/header2.png') }}" alt="Image">
             <h4 class="mt-5 font-weight-bold mb-4">قطاع شبكات النقل الكهربائية</h4>
             <h4 class="font-weight-bold">تكليف بمهمة خارج مقر العمل</h4>
             <div class="row mt-4 ">
@@ -235,7 +229,7 @@
                 <h4>الاسم:{{$employee->name}}</h4>
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
-            </div>
+            </div> --}}
             <table class="table  text-center table-bordered  table-hover table-responsive mt-5">
                 <thead>
                     <tr>
@@ -304,18 +298,24 @@
                         @if(in_array($date,$selectedDates1))
                         <td>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black"
+                                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                                <path
+                                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
                             </svg>
                         </td>
                         @else
                         <td>-</td>
                         @endif
                         @if(in_array($date,$selectedDates2))
-                        <td> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                        <td> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black"
+                                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                                <path
+                                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
                             </svg></i></td>
                         @else
                         <td>-</td>
@@ -340,7 +340,8 @@
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
 </body>

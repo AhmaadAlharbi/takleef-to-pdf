@@ -21,6 +21,9 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/dates', [DateContoller::class, 'index']);
+Route::get('/dates-shift-a', [DateContoller::class, 'shiftA']);
+Route::get('/dates-shift-b', [DateContoller::class, 'shiftB']);
+Route::get('/dates-shift-c', [DateContoller::class, 'shiftC']);
+Route::get('/dates-shift-d', [DateContoller::class, 'shiftD']);
 Route::post('/submit', [DateContoller::class, 'submit']);
 Route::get('/generatepdf', [DateContoller::class, 'generatepdf'])->name('user.pdf');

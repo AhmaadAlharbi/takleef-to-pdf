@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -18,7 +19,15 @@
 </head>
 
 <body>
-    <h1 class="text-center mt-4">SHIFT A</h1>
+    @if (session()->has('wrong'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('wrong') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    <h1 class="text-center mt-4">{{$title}}</h1>
     <form method="POST" action="/submit">
 
         <div class="row container text-center mx-auto">
@@ -28,7 +37,7 @@
                 <div class="text-center">
                     <label>ادخل رقم الملف الخاص بالموظف</label>
                     <input name="fileNo" type="text" class="form-control d-block mt-2">
-                    <button class="btn btn-primary btn-lg mt-2 " type="submit">Save</button>
+                    <button class="btn btn-primary btn-lg mt-2 " type="submit">ابحث</button>
 
                 </div>
 
@@ -41,8 +50,8 @@
                             <th>#</th>
                             <th>اليوم</th>
                             <th>التاريخ</th>
-                            <th>7:00 AM</th>
-                            <th>7:00 PM</th>
+                            <th>حضور</th>
+                            <th>انصراف</th>
                         </tr>
                     </thead>
                     @php
@@ -94,12 +103,16 @@
                             <td>{{ $date->format('Y-m-d') }}</td>
                             <td>
 
-                                <input class="form-check-input" type="checkbox" name="checkbox1[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}" @if(in_array($date->format('Y-m-d'), $disabledDates))
+                                <input class="form-check-input" type="checkbox"
+                                    name="checkbox1[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}"
+                                    @if(in_array($date->format('Y-m-d'), $disabledDates))
                                 disabled
                                 @endif>
                             </td>
                             <td>
-                                <input class="form-check-input" type="checkbox" name="checkbox2[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}" @if(in_array($date->format('Y-m-d'), $disabledDates))
+                                <input class="form-check-input" type="checkbox"
+                                    name="checkbox2[{{ $date->format('Y-m-d') }}]" value="{{ $date->format('Y-m-d') }}"
+                                    @if(in_array($date->format('Y-m-d'), $disabledDates))
                                 disabled
                                 @endif>
                             </td>
@@ -111,7 +124,12 @@
 
         </div>
     </form>
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
