@@ -134,7 +134,7 @@
     <div class="row container    border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">
-            <h5 class=" font-weight-bold mb-3 ">قطاع شبكات النقل الكهربائية</h5>
+            <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
             <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
             <div class="row mb-3 ">
                 <div class="col">
@@ -159,7 +159,6 @@
                 </p>
                 <p>وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
-
                 <h5 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
                 </h5>
@@ -167,7 +166,6 @@
             </div>
             <div class="footer-img">
                 <img src="{{ asset('images/footer.png') }}" style="margin-top:200px;" alt="Image">
-
             </div>
         </div>
 

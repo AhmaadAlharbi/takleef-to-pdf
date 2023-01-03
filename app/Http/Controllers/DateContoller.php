@@ -99,7 +99,7 @@ class DateContoller extends Controller
 
         // Dates that should be disabled
         $disabledDates = [
-            '2022-12-04',
+            '2022 -12-04',
             '2022-12-08',
             '2022-12-12',
             '2022-12-16',
@@ -150,12 +150,31 @@ class DateContoller extends Controller
             $date = Carbon::now();
             return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
         } else {
-            session()->flash('wrong', 'لايوجد موظف يحمل رقم الملف المدخل');
+            session()->flash('error', 'لايوجد موظف يحمل رقم الملف المدخل');
             return back();
         }
     }
 
+    public function addEmployee(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required',
+            'civilId' => 'required',
+            'fileNo' => 'required'
+        ]);
 
+        try {
+            $employee = Emplopyee::create($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                // Duplicate entry error
+                session()->flash('error', 'الرقم المدني او رقم الملف موجود مسبقاً');
+                return redirect()->back();
+            }
+        }
+
+        return redirect()->back();
+    }
     // public function generatepdf(Request $request)
     // {
     //     set_time_limit(120);
