@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>.</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
         integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +13,14 @@
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
 
     <style>
+        @media print {
+
+            header,
+            footer {
+                display: none;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -126,12 +134,11 @@
 
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
-    <button onclick="window.print()">Print</button>
+    <button onclick="window.print()">حفظ PDF</button>
     <!-- 
     <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
         PDF</a> -->
-
-    <div class="row container    border-dark text-center mx-auto d-block">
+    <div class="row container border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">
             <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
@@ -154,7 +161,7 @@
                 <p class="">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
                     لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
-                <p>
+                <p class="text-right">
                     للفترة {{$firstValue}} إلى {{$lastValue}}
                 </p>
                 <p>وذلك لإجراء اللازم</p>

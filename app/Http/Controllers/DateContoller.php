@@ -30,7 +30,6 @@ class DateContoller extends Controller
             '2022-12-22',
             '2022-12-26',
             '2022-12-30',
-            '2022-12-17',
         ];
 
         $currentMonth = 12; //September
@@ -99,7 +98,7 @@ class DateContoller extends Controller
 
         // Dates that should be disabled
         $disabledDates = [
-            '2022 -12-04',
+            '2022-12-04',
             '2022-12-08',
             '2022-12-12',
             '2022-12-16',
@@ -157,11 +156,22 @@ class DateContoller extends Controller
 
     public function addEmployee(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'civilId' => 'required',
-            'fileNo' => 'required'
-        ]);
+        $data = $request->validate(
+            [
+                'name' => 'required',
+                'civilId' => 'required',
+                'fileNo' => 'required'
+            ],
+            [
+                'name' => 'يرجى ادخال اسم الموظف',
+                'civilId' => 'يرجى ادخل الرقم المدني الخاص بالموظف',
+                'fileNo' => 'يرجى ادخال رقم الملف الخاص بالموظف',
+
+            ]
+        );
+
+
+
 
         try {
             $employee = Emplopyee::create($data);
