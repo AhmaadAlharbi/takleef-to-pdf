@@ -13,13 +13,14 @@
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
 
     <style>
-        @media print {
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-            header,
-            footer {
-                display: none;
-            }
         }
+
+
 
         * {
             margin: 0;
@@ -161,10 +162,14 @@
                 <p class="">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
                     لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
-                <p class="text-right">
-                    للفترة {{$firstValue}} إلى {{$lastValue}}
-                </p>
-                <p>وذلك لإجراء اللازم</p>
+
+                <div class=" flex space-x">
+                    <div class="mx-4">من الفترة</div>
+                    <div class=""> {{$firstValue}} </div>
+                    <div class="mx-4"> إلى</div>
+                    <div class=""> {{$lastValue}}</div>
+                </div>
+                <p class="mt-4">وذلك لإجراء اللازم</p>
                 <p>مع أطيب التنميات،،،</p>
                 <h5 class="d-flex justify-content-end " style="margin-top:40px;">مدير إدارة صيانة محطات التحويل
                     الرئيسية
@@ -235,7 +240,7 @@
                 <h4>الرقم المدني:{{$employee->civilId}}</h4>
                 <h4>رقم الملف:{{$employee->fileNo}}</h4>
             </div> --}}
-            <table class="table  text-center table-bordered  table-hover table-responsive mt-5">
+            <table class="table  text-center table-bordered  table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>#</th>
