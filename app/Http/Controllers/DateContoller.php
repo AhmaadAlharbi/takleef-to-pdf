@@ -117,6 +117,22 @@ class DateContoller extends Controller
 
         return view('myview', compact('dates', 'disabledDates', 'title'));
     }
+    public function publicShift()
+    {
+        $title = "SHIFT-D";
+
+        // Dates that should be disabled
+        $disabledDates = [];
+
+        $currentMonth = 12; //September
+        $currentYear = 2022;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth + 1; $i++) {
+            $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
+        }
+
+        return view('myview', compact('dates', 'disabledDates', 'title'));
+    }
     public function submit(Request $request)
     {
 
@@ -134,9 +150,8 @@ class DateContoller extends Controller
 
             $mergedArray  = array_merge($selectedDates1, $selectedDates2);
 
-            $firstValue = reset($mergedArray);
 
-            $lastValue  =  end($mergedArray);
+
 
             $unique_dates  = array_unique($mergedArray);
             usort($unique_dates, function ($a, $b) {
@@ -144,6 +159,10 @@ class DateContoller extends Controller
                 $date2 = new DateTime($b);
                 return $date1 <=> $date2;
             });
+            $firstValue = reset($unique_dates);
+
+            $lastValue  =  end($unique_dates);
+
             $request->session()->put('unique_dates', $unique_dates);
 
             $date = Carbon::now();

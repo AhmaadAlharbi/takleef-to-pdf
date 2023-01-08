@@ -39,6 +39,7 @@
     @endif
     <h1 class="text-center mt-4">{{$title}}</h1>
     <form method="POST" action="/submit">
+        @csrf
 
         <div class="row container text-center mx-auto">
 
@@ -57,7 +58,6 @@
 
             </div>
             <div class="col-md-7 text-center mt-5">
-                @csrf
                 <table class="table table-striped text-center table-bordered  table-hover table-responsive">
                     <thead class="thead-dark">
                         <tr>

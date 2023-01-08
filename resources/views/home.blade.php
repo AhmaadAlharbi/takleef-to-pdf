@@ -33,6 +33,7 @@
                 <a href="/dates-shift-b" class="btn btn-outline-secondary">Shift B</a>
                 <a href="/dates-shift-c" class="btn btn-outline-dark">Shift C</a>
                 <a href="/dates-shift-d" class="btn btn-outline-success">Shift D</a>
+                <a href="/dates" class="btn btn-outline-danger">غير محدد</a>
             </div>
         </div>
 
