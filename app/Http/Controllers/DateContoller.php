@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
+
 use Carbon\Carbon;
 use DateTime;
 use App\Models\Emplopyee;
+use App\Models\December;
 use Barryvdh\DomPDF\Facade\Pdf;
 // use PDF;
 use Dompdf\Dompdf;
@@ -15,8 +19,30 @@ use Illuminate\Http\Request;
 class DateContoller extends Controller
 
 {
-    private $firstValue = 's';
-    private $lastValue = 's';
+    public function december()
+    {
+        $title = "DECEMBER";
+        // Dates that should be disabled
+        $disabledDates = [
+            '2022-12-02',
+            '2022-12-06',
+            '2022-12-10',
+            '2022-12-14',
+            '2022-12-18',
+            '2022-12-22',
+            '2022-12-26',
+            '2022-12-30',
+        ];
+
+        $currentMonth = 12; //September
+        $currentYear = 2022;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth + 1; $i++) {
+            $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
+        }
+
+        return view('myview', compact('dates', 'disabledDates', 'title'));
+    }
     public function shiftA()
     {
         $title = "SHIFT-A";
@@ -135,42 +161,13 @@ class DateContoller extends Controller
     }
     public function submit(Request $request)
     {
-
-        $checkbox1 = $request->input('checkbox1', []);
-        $checkbox2 = $request->input('checkbox2', []);
         $fileNo = $request->fileNo;
+        $employee = December::where('fileNo', $fileNo)->orderBy('date')->get();
+        $employee_info = December::where('fileNo', $fileNo)->first();
+        $firstDate = December::where('fileNo', $fileNo)->orderBy('date', 'asc')->value('date');
+        $lastDate = December::where('fileNo', $fileNo)->orderByDesc('date')->value('date');
 
-        $employee = Emplopyee::where('fileNo', $fileNo)->first();
-        // $checkbox1 and $checkbox2 are arrays of dates that were selected in the form
-        // You can use the array_values function to get an array of just the selected dates
-        if ($employee) {
-            $selectedDates1 = array_values($checkbox1);
-
-            $selectedDates2 = array_values($checkbox2);
-
-            $mergedArray  = array_merge($selectedDates1, $selectedDates2);
-
-
-
-
-            $unique_dates  = array_unique($mergedArray);
-            usort($unique_dates, function ($a, $b) {
-                $date1 = new DateTime($a);
-                $date2 = new DateTime($b);
-                return $date1 <=> $date2;
-            });
-            $firstValue = reset($unique_dates);
-
-            $lastValue  =  end($unique_dates);
-
-            $request->session()->put('unique_dates', $unique_dates);
-
-            $date = Carbon::now();
-            return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
-        } else {
-            session()->flash('error', 'لايوجد موظف يحمل رقم الملف المدخل');
-            return back();
-        }
+        return view('showDecember', compact('employee', 'employee_info', 'firstDate', 'lastDate'));
     }
 
     public function addEmployee(Request $request)
