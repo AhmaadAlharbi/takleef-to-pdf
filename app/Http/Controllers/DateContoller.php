@@ -34,14 +34,14 @@ class DateContoller extends Controller
             '2022-12-30',
         ];
 
-        $currentMonth = 12; //September
+        $currentMonth = 12;
         $currentYear = 2022;
         $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
         for ($i = 1; $i <= $daysInMonth + 1; $i++) {
             $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
         }
 
-        return view('myview', compact('dates', 'disabledDates', 'title'));
+        return view('december', compact('dates', 'disabledDates', 'title'));
     }
     public function shiftA()
     {
@@ -161,6 +161,51 @@ class DateContoller extends Controller
     }
     public function submit(Request $request)
     {
+        $checkbox1 = $request->input('checkbox1', []);
+        $checkbox2 = $request->input('checkbox2', []);
+        $fileNo = $request->fileNo;
+
+        $employee = Emplopyee::where('fileNo', $fileNo)->first();
+        // $checkbox1 and $checkbox2 are arrays of dates that were selected in the form
+        // You can use the array_values function to get an array of just the selected dates
+        if ($employee) {
+            $selectedDates1 = array_values($checkbox1);
+
+            $selectedDates2 = array_values($checkbox2);
+
+            $mergedArray  = array_merge($selectedDates1, $selectedDates2);
+
+
+
+
+            $unique_dates  = array_unique($mergedArray);
+            usort($unique_dates, function ($a, $b) {
+                $date1 = new DateTime($a);
+                $date2 = new DateTime($b);
+                return $date1 <=> $date2;
+            });
+            $firstValue = reset($unique_dates);
+
+            $lastValue  =  end($unique_dates);
+
+            $request->session()->put('unique_dates', $unique_dates);
+
+            $date = Carbon::now();
+            return view('show', compact('mergedArray', 'date', 'selectedDates1', 'selectedDates2', 'unique_dates', 'employee', 'firstValue', 'lastValue'));
+        } else {
+            session()->flash('error', 'لايوجد موظف يحمل رقم الملف المدخل');
+            return back();
+        }
+        // $fileNo = $request->fileNo;
+        // $employee = December::where('fileNo', $fileNo)->orderBy('date')->get();
+        // $employee_info = December::where('fileNo', $fileNo)->first();
+        // $firstDate = December::where('fileNo', $fileNo)->orderBy('date', 'asc')->value('date');
+        // $lastDate = December::where('fileNo', $fileNo)->orderByDesc('date')->value('date');
+
+        // return view('showDecember', compact('employee', 'employee_info', 'firstDate', 'lastDate'));
+    }
+    public function submitDecember(Request $request)
+    {
         $fileNo = $request->fileNo;
         $employee = December::where('fileNo', $fileNo)->orderBy('date')->get();
         $employee_info = December::where('fileNo', $fileNo)->first();
@@ -201,6 +246,68 @@ class DateContoller extends Controller
 
         return redirect()->back();
     }
+
+    public function editDate($id)
+    {
+        $employee = December::where('fileNo', $id)->orderBy('date')->get();
+        $employee_info = December::where('fileNo', $id)->first();
+
+
+        $disabledDates = [];
+        $currentMonth = 12; //September
+        $currentYear = 2022;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
+            $dates[] = $date->format('Y-m-d');
+        }
+        $attendance = array();
+        foreach ($dates as $date) {
+            $attendance[$date] = December::where('fileNo', $id)->whereDate('date', $date)->first();
+        }
+        return view('editDate', compact('dates', 'employee_info', 'employee', 'disabledDates', 'attendance'));
+    }
+    public function updateDate(Request $request, $id)
+    {
+
+        $employee_info = December::where('fileNo', $id)->first();
+        if ($request->dates) {
+            foreach ($request->dates as $date => $status) {
+                December::firstOrCreate(
+                    ['date' => $date, 'fileNo' => $id],
+                    ['employee_in' => $status]
+                );
+            }
+        }
+
+        //     $attendance = December::where('date', $date)->where('fileNo', $id)->first();
+        //     if ($attendance != null) {
+        //         return $request->status;
+        //         if ($request->status == 'بداية الدوام') {
+        //             $attendance->update([
+        //                 'employee_in' => 'بداية الدوام'
+        //             ]);
+        //         } else {
+        //             $attendance->update([
+        //                 'employee_in' => '-'
+        //             ]);
+        //         }
+        //     } else {
+        //         $data = December::create([
+        //             'date' => $date,
+        //             'employee_in' => $status,
+        //             'name' => $employee_info->name,
+        //             'civilId' => $employee_info->civilId,
+        //             'fileNo' => $employee_info->fileNo
+
+        //         ]);
+        //     }
+        // }
+
+        return redirect()->back()->with('message', 'Attendance updated successfully.');
+    }
+
+
     // public function generatepdf(Request $request)
     // {
     //     set_time_limit(120);

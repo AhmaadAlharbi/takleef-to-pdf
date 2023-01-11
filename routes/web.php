@@ -28,5 +28,8 @@ Route::get('/dates-shift-d', [DateContoller::class, 'shiftD']);
 Route::get('/dates', [DateContoller::class, 'publicShift']);
 Route::get('/takleef-december', [DateContoller::class, 'december']);
 Route::post('/submit', [DateContoller::class, 'submit']);
+Route::post('/submit/december', [DateContoller::class, 'submitDecember']);
 Route::post('/add-new-employee', [DateContoller::class, 'addEmployee'])->name('addEmployee');
+Route::get('/edit-date/{id}', [DateContoller::class, 'editDate'])->name('editDate');
+Route::post('/update-date/{id}', [DateContoller::class, 'updateDate'])->name('updateDate');
 Route::get('/generatepdf', [DateContoller::class, 'generatepdf'])->name('user.pdf');
