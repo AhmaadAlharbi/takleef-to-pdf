@@ -23,6 +23,11 @@
 </head>
 
 <body>
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="row border px-4 py-2 mt-4 d-flex justify-content-center align-items-center text-center">
         <div class="col">
             <img src="{{ asset('images/hero-welcome.svg') }}" alt="Image">

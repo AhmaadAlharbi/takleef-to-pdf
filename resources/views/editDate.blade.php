@@ -28,11 +28,7 @@
             <div class="row container text-center mx-auto d-flex justify-content-center align-items-center">
                 <div class="col-md-5">
                     <img src="{{ asset('images/booking.svg') }}" alt="Image">
-                    <!-- <div class="text-center">
-                    <label>ادخل رقم الملف الخاص بالموظف</label>
-                    <input name="fileNo" type="text" class="form-control d-block mt-2">
-                    <button class="btn btn-primary  mt-2 " type="submit">ابحث</button>
-                    <!-- Button trigger modal adding a new employee -->
+
                     <p>الاسم : {{$employee_info->name}}</p>
                     <p>الرقم المدني : {{$employee_info->civilId}}</p>
                     <p>رقم الملف : {{$employee_info->fileNo}}</p>
@@ -42,7 +38,7 @@
 
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-7 text-center mt-5">
                     <table class="table text-center table-bordered  table-hover table-responsive">
                         <thead>
                             <tr>
