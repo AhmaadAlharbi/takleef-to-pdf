@@ -267,67 +267,50 @@ class DateContoller extends Controller
     }
     public function updateDate(Request $request, $id)
     {
-
         $employee_db = December::where('fileNo', $id)->orderBy('date')->get();
-        $employee_in = $request->input('employee_in');
-        $employee_out = $request->input('employee_out');
-        // check if employee_in array is not empty
-        if (!empty($employee_in)) {
-            foreach ($employee_db as $db_date) {
-                $employee_in_value = in_array($db_date->date, $employee_in) ? 'بداية الدوام' : null;
-                December::where('fileNo', $id)->where('date', $db_date->date)
-                    ->update(['employee_in' => $employee_in_value]);
+        $employee_in = $request->input('employee_in') ?? [];
+        $employee_out = $request->input('employee_out') ?? [];
+        $attendance_data = array_merge(
+            array_fill_keys($employee_in, 'بداية الدوام'),
+            array_fill_keys($employee_out, 'نهاية الدوام')
+        );
+        foreach ($employee_db as $db_date) {
+            $attend = December::where('fileNo', $id)->where('date', $db_date->date)->first();
+            if ($attend) {
+                $attend->update([
+                    'employee_in' => $attendance_data[$db_date->date] ?? null,
+                    'employee_out' => $attendance_data[$db_date->date] ?? null
+                ]);
             }
-        } else {
-            December::where('fileNo', $id)->update(['employee_in' => null]);
         }
-        // check if employee_out array is not empty
-        if (!empty($employee_out)) {
-            foreach ($employee_db as $db_date) {
-                $employee_out_value = in_array($db_date->date, $employee_out) ? 'نهاية الدوام' : null;
-                December::where('fileNo', $id)->where('date', $db_date->date)
-                    ->update(['employee_out' => $employee_out_value]);
-            }
-        } else {
-            December::where('fileNo', $id)->update(['employee_out' => null]);
-        }
-        // check if employee_in array is not empty
-        if (!empty($employee_in)) {
-            foreach ($employee_in as $date) {
-                $attend = December::where('fileNo', $id)->where('date', $date)->first();
-                if (!$attend) {
-                    $attend = December::create([
+        $new_attendance = array_diff_key($attendance_data, $employee_db->pluck('date', 'date')->toArray());
+        if ($new_attendance) {
+            December::insert(
+                array_map(function ($value, $date) use ($id) {
+                    return [
                         'fileNo' => $id,
                         'date' => $date,
-                        'employee_in' => 'بداية الدوام',
-
-                    ]);
-                }
-            }
-        }
-        // check if employee_out array is not empty
-        ////
-        if (!empty($employee_out)) {
-
-            foreach ($employee_out as $date) {
-                $attend = December::where('fileNo', $id)->where('date', $date)->first();
-                if (!$attend) {
-                    $attend = December::create([
-                        'fileNo' => $id,
-                        'date' => $date,
-                        'employee_out' => 'نهاية الدوام'
-                    ]);
-                }
-            }
+                        'employee_in' => $value,
+                        'employee_out' => $value
+                    ];
+                }, $new_attendance, array_keys($new_attendance))
+            );
         }
         if (empty($employee_in) && empty($employee_out)) {
-            December::where('fileNo', $id)->update(['employee_in' => null, 'employee_out' => null]);
             December::where('fileNo', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
             return redirect('/')->with('success', 'Attendance updated successfully');
         }
-
         return redirect()->back()->with('success', 'Attendance updated successfully');
+        // This code uses the array_merge function to merge the $employee_in and $employee_out arrays into one array called $attendance_data with the keys as the dates and the values as the attendance status. It also uses array_fill_keys function to fill the arrays with the desired value.
+
+        // Then it loops through the $employee_db and updates the attendance status for each date using the update() method on the $attend object.
+
+        // Then it uses the array_diff_key function to find the new attendance data that are not in the $employee_db and insert them into the database using insert() method.
+
+        // Finally, it deletes all rows that have both employee_in and employee_out columns set to null if both input arrays are empty.
     }
+
+
 
 
     // public function generatepdf(Request $request)
