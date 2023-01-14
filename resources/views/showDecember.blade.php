@@ -139,9 +139,9 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
     <button onclick="window.print()">حفظ PDF</button>
-    <button type="button" data-toggle="modal" data-target="#exampleModal">
+    <a href="{{route('editDate',['id'=>$employee_info->fileNo])}}" class="btn btn-primary">
         تعديل
-    </button>
+    </a>
     <!-- 
     <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
         PDF</a> -->

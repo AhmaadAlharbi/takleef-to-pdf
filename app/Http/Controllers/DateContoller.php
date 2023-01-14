@@ -251,8 +251,6 @@ class DateContoller extends Controller
     {
         $employee = December::where('fileNo', $id)->orderBy('date')->get();
         $employee_info = December::where('fileNo', $id)->first();
-
-
         $disabledDates = [];
         $currentMonth = 12; //September
         $currentYear = 2022;
@@ -270,41 +268,65 @@ class DateContoller extends Controller
     public function updateDate(Request $request, $id)
     {
 
-        $employee_info = December::where('fileNo', $id)->first();
-        if ($request->dates) {
-            foreach ($request->dates as $date => $status) {
-                December::firstOrCreate(
-                    ['date' => $date, 'fileNo' => $id],
-                    ['employee_in' => $status]
-                );
+        $employee_db = December::where('fileNo', $id)->orderBy('date')->get();
+        $employee_in = $request->input('employee_in');
+        $employee_out = $request->input('employee_out');
+        // check if employee_in array is not empty
+        if (!empty($employee_in)) {
+            foreach ($employee_db as $db_date) {
+                $employee_in_value = in_array($db_date->date, $employee_in) ? 'بداية الدوام' : null;
+                December::where('fileNo', $id)->where('date', $db_date->date)
+                    ->update(['employee_in' => $employee_in_value]);
+            }
+        } else {
+            December::where('fileNo', $id)->update(['employee_in' => null]);
+        }
+        // check if employee_out array is not empty
+        if (!empty($employee_out)) {
+            foreach ($employee_db as $db_date) {
+                $employee_out_value = in_array($db_date->date, $employee_out) ? 'نهاية الدوام' : null;
+                December::where('fileNo', $id)->where('date', $db_date->date)
+                    ->update(['employee_out' => $employee_out_value]);
+            }
+        } else {
+            December::where('fileNo', $id)->update(['employee_out' => null]);
+        }
+        // check if employee_in array is not empty
+        if (!empty($employee_in)) {
+            foreach ($employee_in as $date) {
+                $attend = December::where('fileNo', $id)->where('date', $date)->first();
+                if (!$attend) {
+                    $attend = December::create([
+                        'fileNo' => $id,
+                        'date' => $date,
+                        'employee_in' => 'بداية الدوام',
+
+                    ]);
+                }
             }
         }
+        // check if employee_out array is not empty
+        ////
+        if (!empty($employee_out)) {
 
-        //     $attendance = December::where('date', $date)->where('fileNo', $id)->first();
-        //     if ($attendance != null) {
-        //         return $request->status;
-        //         if ($request->status == 'بداية الدوام') {
-        //             $attendance->update([
-        //                 'employee_in' => 'بداية الدوام'
-        //             ]);
-        //         } else {
-        //             $attendance->update([
-        //                 'employee_in' => '-'
-        //             ]);
-        //         }
-        //     } else {
-        //         $data = December::create([
-        //             'date' => $date,
-        //             'employee_in' => $status,
-        //             'name' => $employee_info->name,
-        //             'civilId' => $employee_info->civilId,
-        //             'fileNo' => $employee_info->fileNo
+            foreach ($employee_out as $date) {
+                $attend = December::where('fileNo', $id)->where('date', $date)->first();
+                if (!$attend) {
+                    $attend = December::create([
+                        'fileNo' => $id,
+                        'date' => $date,
+                        'employee_out' => 'نهاية الدوام'
+                    ]);
+                }
+            }
+        }
+        if (empty($employee_in) && empty($employee_out)) {
+            December::where('fileNo', $id)->update(['employee_in' => null, 'employee_out' => null]);
+            December::where('fileNo', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
+            return redirect('/')->with('success', 'Attendance updated successfully');
+        }
 
-        //         ]);
-        //     }
-        // }
-
-        return redirect()->back()->with('message', 'Attendance updated successfully.');
+        return redirect()->back()->with('success', 'Attendance updated successfully');
     }
 
 

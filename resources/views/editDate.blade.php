@@ -14,6 +14,15 @@
 
 <body>
     <div class="container">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <form method="POST" action="{{route('updateDate',['id'=>$employee_info->fileNo])}}">
             @csrf
             <div class="row container text-center mx-auto d-flex justify-content-center align-items-center">
@@ -93,31 +102,40 @@
                                 @endswitch
 
                                 <td>{{$date}}</td>
+                                <td>
 
-                                <td class="{{ $attendance[$date] ? 'bg-light' : '' }}">
-                                    <div class="form-group">
-                                        <label>{{ $date }}</label>
-                                        <select name="dates[{{ $date}}]">
-                                            <option value="">None</option>
-                                            <option value="بداية الدوام" {{ old('dates.'.$date, $attendance[$date]) == 'بداية الدوام' ? 'selected' : '' }}>Present</option>
-                                        </select>
-                                    </div>
+                                    @if(is_array($attendance) && in_array($date,array_column($attendance, 'date')))
+                                    @if($attendance[$date]->employee_in === 'بداية الدوام')
+                                    <input type="checkbox" name="employee_in[]" value="{{$date}}" checked>
+                                    @else
+                                    <input type="checkbox" name="employee_in[]" value="{{$date}}">
+                                    @endif
+                                    @else
+                                    <input type="checkbox" name="employee_in[]" value="{{$date}}">
+                                    @endif
+
+                                </td>
+                                <td>
+
+                                    @if(is_array($attendance) && in_array($date,array_column($attendance, 'date')))
+                                    @if($attendance[$date]->employee_out === 'نهاية الدوام')
+                                    <input type="checkbox" name="employee_out[]" value="{{$date}}" checked>
+                                    @else
+                                    <input type="checkbox" name="employee_out[]" value="{{$date}}">
+                                    @endif
+                                    @else
+                                    <input type="checkbox" name="employee_out[]" value="{{$date}}">
+                                    @endif
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+                        @endforeach
+                    </table>
                 </div>
-                </td>
-                <td class="{{ $attendance[$date] ? 'bg-light' : '' }}">
-                    @if($attendance[$date])
-                    <input type="checkbox" name="out" value="{{ $date }}" {{ $attendance[$date]->employee_out  ? 'checked' : '' }}>
-                    @else
-                    <input type="checkbox">
-                    @endif
-                </td>
-                </tr>
-                </tbody>
-                @endforeach
-                </table>
             </div>
-    </div>
-    </form>
+        </form>
 
     </div>
 </body>
