@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>.</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -181,21 +182,20 @@
 
             </div>
             <div class="footer-img">
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:80px;" alt="Image">
+                <img src="{{ asset('images/footer.png') }}" style="margin-top:150px;" alt="Image">
             </div>
         </div>
 
 
         {{-- page2 --}}
         <div class="row page page-break mx-auto d-block">
-            <img src="{{ asset('images/header2.png') }}" alt="Image">
+            <img style="margin-top=50px" src="{{ asset('images/header2.png') }}" alt="Image">
             <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
             <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
             <div class="row mb-3 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</>
                         <h5>تحية طيبة وبعد</h5>
-
                 </div>
                 <div class="col">
                     <h5>المحترم</h5>
@@ -226,127 +226,134 @@
                 </h5>
             </div>
 
-            {{-- page3 --}}
-            <div class="row page  page-break mx-auto d-block">
 
-                <img style="margin-top:40px;" src="{{ asset('images/header2.png') }}" alt="Image">
-                <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
-                <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
-                <div class="row mb-3 ">
-                    <div class="col">
-                        <h5>السيد / مدير ادارة شؤون العاملين</>
-                            <h5>تحية طيبة وبعد</h5>
+        </div>
+        {{-- page3 --}}
+        <img style="margin-top:40px;" src="{{ asset('images/header2.png') }}" alt="Image">
+        <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
+        <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
+        <div class="row mb-3 ">
+            <div class="col">
+                <h5>السيد / مدير ادارة شؤون العاملين</>
+                    <h5>تحية طيبة وبعد</h5>
+            </div>
+            <div class="col">
+                <h5>المحترم</h5>
+            </div>
+        </div>
+        <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
+        <div class="">
+            <p>الاسم:{{$employee->name}}</p>
+            <p>الرقم المدني:{{$employee->civilId}}</p>
+            <p>رقم الملف:{{$employee->fileNo}}</p>
+            <table id="tableId" class="table  text-center table-bordered  table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>اليوم</th>
+                        <th>التاريخ</th>
+                        <th>حضور</th>
+                        <th>انصراف</th>
+                    </tr>
+                </thead>
+                @php
+                $i = 0;
+                @endphp
+                @isset($unique_dates)
+                @foreach($unique_dates as $date)
 
-                    </div>
-                    <div class="col">
-                        <h5>المحترم</h5>
-                    </div>
-                </div>
-                <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
-                <div class="">
-                    <p>الاسم:{{$employee->name}}</p>
-                    <p>الرقم المدني:{{$employee->civilId}}</p>
-                    <p>رقم الملف:{{$employee->fileNo}}</p>
-                    <table class="table  text-center table-bordered  table-hover table-responsive">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>اليوم</th>
-                                <th>التاريخ</th>
-                                <th>حضور</th>
-                                <th>انصراف</th>
-                            </tr>
-                        </thead>
+                <tbody>
+                    <tr>
                         @php
-                        $i = 0;
+                        $i++;
                         @endphp
-                        @isset($unique_dates)
-                        @foreach($unique_dates as $date)
 
-                        <tbody>
-                            <tr>
-                                @php
-                                $i++;
-                                @endphp
+                        <td>{{$i}}</td>
+                        @switch( \Carbon\Carbon::parse($date)->englishDayOfWeek)
 
-                                <td>{{$i}}</td>
-                                @switch( \Carbon\Carbon::parse($date)->englishDayOfWeek)
+                        @case('Sunday')
 
-                                @case('Sunday')
+                        <td>
+                            الأحد
+                        </td>
+                        @break
+                        @case('Monday')
+                        <td>
+                            الاثنين
+                        </td>
+                        @break
+                        @case('Tuesday')
+                        <td>
+                            الثلاثاء
+                        </td>
+                        @break
+                        @case('Wednesday')
+                        <td>
+                            الأربعاء
+                        </td>
+                        @break
+                        @case('Thursday')
+                        <td>
+                            الخميس
+                        </td>
+                        @break
+                        @case('Friday')
+                        <td>
+                            الجمعة
+                        </td>
+                        @break
+                        @case('Saturday')
+                        <td>
+                            السبت
+                        </td>
+                        @break
+                        @endswitch
 
-                                <td>
-                                    الأحد
-                                </td>
-                                @break
-                                @case('Monday')
-                                <td>
-                                    الاثنين
-                                </td>
-                                @break
-                                @case('Tuesday')
-                                <td>
-                                    الثلاثاء
-                                </td>
-                                @break
-                                @case('Wednesday')
-                                <td>
-                                    الأربعاء
-                                </td>
-                                @break
-                                @case('Thursday')
-                                <td>
-                                    الخميس
-                                </td>
-                                @break
-                                @case('Friday')
-                                <td>
-                                    الجمعة
-                                </td>
-                                @break
-                                @case('Saturday')
-                                <td>
-                                    السبت
-                                </td>
-                                @break
-                                @endswitch
+                        <td>{{$date}}</td>
 
-                                <td>{{$date}}</td>
+                        @if(in_array($date,$selectedDates1))
+                        <td>
 
-                                @if(in_array($date,$selectedDates1))
-                                <td>
+                            بداية الدوام
+                        </td>
+                        @else
+                        <td>-</td>
+                        @endif
+                        @if(in_array($date,$selectedDates2))
+                        <td> نهاية الدوام</td>
+                        @else
+                        <td>-</td>
+                        @endif
+                    </tr>
 
-                                    بداية الدوام
-                                </td>
-                                @else
-                                <td>-</td>
-                                @endif
-                                @if(in_array($date,$selectedDates2))
-                                <td> نهاية الدوام</td>
-                                @else
-                                <td>-</td>
-                                @endif
-                            </tr>
+                </tbody>
+                @endforeach
+                @endisset
 
-                        </tbody>
-                        @endforeach
-                        @endisset
+            </table>
+            <div class="row mt-5">
+                <div class="col">
+                    <p>موافقة رئيس القسم</p>
+                </div>
+                <div class="col">
+                    <p>اعتماد مدير الادراة</p>
 
-                    </table>
-                    <div class="row mt-5">
-                        <div class="col">
-                            <p>موافقة رئيس القسم</p>
-                        </div>
-                        <div class="col">
-                            <p>اعتماد مدير الادراة</p>
-
-                        </div>
-                    </div>
                 </div>
             </div>
-
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-            </script>
+        </div>
+        <script>
+            var table = document.getElementById("tableId");
+    var rows = table.getElementsByTagName("tr");
+    
+    for (var i = 0; i < rows.length; i++) {
+        if (i === 8) {
+            rows[i].style.pageBreakBefore = "always";
+        }
+    }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+        </script>
 
 </body>
 
