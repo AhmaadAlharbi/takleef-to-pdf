@@ -170,9 +170,9 @@
 
                 <div class=" flex space-x">
                     <div class="mx-4">من الفترة</div>
-                    <div class=""> {{$firstValue}} </div>
+                    <div class="">1 / 1 / 2023 </div>
                     <div class="mx-4"> إلى</div>
-                    <div class=""> {{$lastValue}}</div>
+                    <div class=""> 31 / 1 / 2023</div>
                 </div>
                 <p class="mt-4">وذلك لإجراء اللازم</p>
                 <p>مع أطيب التمنيات،،،</p>
@@ -182,7 +182,7 @@
 
             </div>
             <div class="footer-img">
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:150px;" alt="Image">
+                <img src="{{ asset('images/footer.png') }}" style="margin-top:124px;" alt="Image">
             </div>
         </div>
 
@@ -212,9 +212,9 @@
 
                 <div class=" flex space-x">
                     <div class="mx-4">من الفترة</div>
-                    <div class=""> {{$firstValue}} </div>
+                    <div class="">1 / 1 / 2023 </div>
                     <div class="mx-4"> إلى</div>
-                    <div class=""> {{$lastValue}}</div>
+                    <div class=""> 31 / 1 / 2023</div>
                 </div>
                 <p class="mt-4">وذلك لإجراء اللازم</p>
                 <p>مع أطيب التمنيات،،،</p>
