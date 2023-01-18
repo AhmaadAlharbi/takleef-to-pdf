@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>.</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -23,7 +24,8 @@
             </ul>
         </div>
         @endif
-        <form method="POST" action="{{route('updateDate',['id'=>$employee_info->fileNo])}}">
+
+        <form method="POST" action="{{route('update',['id'=>$employee_info->id])}}">
             @csrf
             <div class="row container text-center mx-auto d-flex justify-content-center align-items-center">
                 <div class="col-md-5">
@@ -32,9 +34,11 @@
                     <p>الاسم : {{$employee_info->name}}</p>
                     <p>الرقم المدني : {{$employee_info->civilId}}</p>
                     <p>رقم الملف : {{$employee_info->fileNo}}</p>
-                    <button type="submit" class="btn btn-dark  btn-lg mt-2" data-toggle="modal" data-target="#exampleModal">
+                    <button type="submit" class="btn btn-dark  btn-lg mt-2" data-toggle="modal"
+                        data-target="#exampleModal">
                         تعديل
                     </button>
+                    <a href="/show/{{$employee_info->id}}" class="btn btn-success btn-lg mt-2">SHOW</a>
 
                 </div>
 

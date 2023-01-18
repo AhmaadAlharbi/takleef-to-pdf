@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 use DateTime;
-use App\Models\Emplopyee;
+use App\Models\Employee;
 use App\Models\December;
 use App\Models\TakleefList;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -163,7 +163,7 @@ class DateContoller extends Controller
         $checkbox1 = $request->input('checkbox1', []);
         $checkbox2 = $request->input('checkbox2', []);
         $fileNo = $request->fileNo;
-        $employee = Emplopyee::where('fileNo', $fileNo)->first();
+        $employee = Employee::where('fileNo', $fileNo)->first();
         // $checkbox1 and $checkbox2 are arrays of dates that were selected in the form
         // You can use the array_values function to get an array of just the selected dates
         if ($employee) {
@@ -244,7 +244,7 @@ class DateContoller extends Controller
 
 
         try {
-            $employee = Emplopyee::create($data);
+            $employee = Employee::create($data);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 // Duplicate entry error

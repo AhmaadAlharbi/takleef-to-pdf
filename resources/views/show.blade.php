@@ -141,12 +141,9 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
     <button onclick="window.print()">حفظ PDF</button>
-    <a href="{{route('editDate',['id'=>$employee_info->employee->id])}}" class="btn edit-btn btn-primary">
+    <a href="{{route('edit-takleef',['id'=>$employee_info->employee->id])}}" class="btn edit-btn btn-primary">
         تعديل
     </a>
-    <!-- 
-    <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
-        PDF</a> -->
     <div class="row container border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">
@@ -185,7 +182,7 @@
 
             </div>
             <div class="footer-img">
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:124px;" alt="Image">
+                <img src="{{ asset('images/footer.png') }}" style="margin-top:90px;" alt="Image">
             </div>
         </div>
 

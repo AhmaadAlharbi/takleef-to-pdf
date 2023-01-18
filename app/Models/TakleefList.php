@@ -15,6 +15,6 @@ class TakleefList extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Emplopyee::class, 'user_id');
+        return $this->belongsTo(Emplopyee::class, 'employee_id');
     }
 }

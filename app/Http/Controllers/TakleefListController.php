@@ -128,6 +128,11 @@ class TakleefListController extends Controller
 
         return view('myview', compact('dates', 'disabledDates', 'title'));
     }
+    public function takleefList()
+    {
+        $title = "شهر يناير";
+        return view('search', compact('title'));
+    }
     public function submit(Request $request)
     {
         $checkbox1 = $request->input('checkbox1', []);
@@ -156,41 +161,41 @@ class TakleefListController extends Controller
             $lastValue  =  end($dates)->format('Y-m-d');;
             foreach ($selectedDates1 as $date) {
                 $takleef = TakleefList::firstOrCreate([
-                    'user_id' => 139,
+                    'employee_id' => $employee->id,
                     'date' => $date,
                     'employee_in' => 'بداية الدوام',
                 ]);
             }
             foreach ($selectedDates2 as $date) {
                 $takleef = TakleefList::firstOrCreate([
-                    'user_id' => 139,
+                    'employee_id' => $employee->id,
                     'date' => $date,
                     'employee_out' => 'نهاية الدوام',
                 ]);
             }
             $request->session()->put('unique_dates', $unique_dates);
             $date = Carbon::now();
-            $employee_takleef = TakleefList::where('user_id', $employee->id)
+            $employee_takleef = TakleefList::where('employee_id', $employee->id)
                 ->where(function ($query) {
                     $query->whereNotNull('employee_in')
                         ->orWhereNotNull('employee_out');
                 })
                 ->orderBy('date')
                 ->get();
-            $employee_info = TakleefList::where('user_id', $employee->id)->first();
-            $firstDate = December::where('fileNo', $fileNo)->orderBy('date', 'asc')->value('date');
-            $lastDate = December::where('fileNo', $fileNo)->orderByDesc('date')->value('date');
-            return view('show', compact('mergedArray', 'date', 'selectedDates1', 'employee_takleef', 'selectedDates2', 'unique_dates', 'employee_info', 'employee', 'firstValue', 'lastValue'));
+
+            $employee_info = TakleefList::where('employee_id', $employee->id)->first();
+            // $firstDate = December::where('fileNo', $fileNo)->orderBy('date', 'asc')->value('date');
+            // $lastDate = December::where('fileNo', $fileNo)->orderByDesc('date')->value('date');
+            return view('show', compact('employee_takleef', 'employee_info', 'firstValue', 'lastValue'));
         } else {
             session()->flash('error', 'لايوجد موظف يحمل رقم الملف المدخل');
             return back();
         }
     }
-    public function editDate($id)
+    public function getTakleef(Request $request)
     {
-        $employee = Emplopyee::where('id', $id)->first();
-        $employee_info = Emplopyee::where('id', $id)->first();
-        $disabledDates = [];
+        $fileNo = $request->fileNo;
+        $employee_info =  Emplopyee::where('fileNo', $fileNo)->first();
         $currentMonth = 1; //September
         $currentYear = 2023;
         $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
@@ -200,8 +205,114 @@ class TakleefListController extends Controller
         }
         $attendance = array();
         foreach ($dates as $date) {
-            $attendance[$date] = TakleefList::where('user_id', $id)->whereDate('date', $date)->first();
+            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
         }
-        return view('editDate', compact('dates', 'employee_info', 'employee', 'disabledDates', 'attendance'));
+        return view('editDate', compact('dates', 'employee_info', 'attendance', 'fileNo'));
+    }
+    public function update(Request $request, $id)
+    {
+        $employee_db = Emplopyee::findOrFail($id);
+        $takleef_db = TakleefList::where('employee_id', $id)->get();
+        $employee_in = $request->input('employee_in');
+        $employee_out = $request->input('employee_out');
+        // check if employee_in array is not empty
+        if (!empty($employee_in)) {
+            foreach ($takleef_db as $db_date) {
+                $employee_in_value = in_array($db_date->date, $employee_in) ? 'بداية الدوام' : null;
+                TakleefList::where('employee_id', $id)->where('date', $db_date->date)
+                    ->update(['employee_in' => $employee_in_value]);
+            }
+        } else {
+            TakleefList::where('employee_id', $id)->update(['employee_in' => null]);
+        }
+        // check if employee_out array is not empty
+        if (!empty($employee_out)) {
+            foreach ($takleef_db as $db_date) {
+                $employee_out_value = in_array($db_date->date, $employee_out) ? 'نهاية الدوام' : null;
+                TakleefList::where('employee_id', $id)->where('date', $db_date->date)
+                    ->update(['employee_out' => $employee_out_value]);
+            }
+        } else {
+            TakleefList::where('employee_id', $id)->update(['employee_out' => null]);
+        }
+        // check if employee_in array is not empty
+        if (!empty($employee_in)) {
+            foreach ($employee_in as $date) {
+                $attend = TakleefList::where('employee_id', $id)->where('date', $date)->first();
+                if (!$attend) {
+                    $attend = TakleefList::create([
+                        'employee_id' => $id,
+                        'date' => $date,
+                        'employee_in' => 'بداية الدوام',
+
+                    ]);
+                }
+            }
+        }
+        // check if employee_out array is not empty
+        ////
+        if (!empty($employee_out)) {
+
+            foreach ($employee_out as $date) {
+                $attend = TakleefList::where('employee_id', $id)->where('date', $date)->first();
+                if (!$attend) {
+                    $attend = TakleefList::create([
+                        'employee_id' => $id,
+                        'date' => $date,
+                        'employee_out' => 'نهاية الدوام'
+                    ]);
+                }
+            }
+        }
+        if (empty($employee_in) && empty($employee_out)) {
+            TakleefList::where('employee_id', $id)->update(['employee_in' => null, 'employee_out' => null]);
+            TakleefList::where('employee_id', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
+            return redirect('/')->with('success', 'Attendance updated successfully');
+        }
+        //delete if both of employee_in and employee_out are empty and delete it
+        foreach ($takleef_db as $takleef) {
+            if ($takleef->employee_in === null && $takleef->employee_out === null) {
+                $takleef->delete();
+            }
+        }
+
+        return redirect('/')->with('success', 'Attendance updated successfully');
+    }
+    public function show($id)
+    {
+        $employee = Emplopyee::findOrFail($id);
+        $employee_takleef = TakleefList::where('employee_id', $id)
+            ->where(function ($query) {
+                $query->whereNotNull('employee_in')
+                    ->orWhereNotNull('employee_out');
+            })
+            ->orderBy('date')
+            ->get();
+        $currentMonth = 1; //September
+        $currentYear = 2023;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
+        }
+        $firstValue = reset($dates)->format('Y-m-d');;
+        $lastValue  =  end($dates)->format('Y-m-d');;
+        $employee_info = TakleefList::where('employee_id', $employee->id)->first();
+        return view('show', compact('employee_takleef', 'employee_info', 'firstValue', 'lastValue'));
+    }
+    public function edit($id)
+    {
+        $employee_info =  Emplopyee::where('id', $id)->first();
+        $currentMonth = 1; //September
+        $currentYear = 2023;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
+            $dates[] = $date->format('Y-m-d');
+        }
+        $attendance = array();
+        foreach ($dates as $date) {
+            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
+        }
+        return view('editDate', compact('dates', 'employee_info', 'attendance'));
     }
 }
