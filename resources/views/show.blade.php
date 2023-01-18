@@ -141,6 +141,9 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
     <button onclick="window.print()">حفظ PDF</button>
+    <a href="{{route('editDate',['id'=>$employee_info->employee->id])}}" class="btn edit-btn btn-primary">
+        تعديل
+    </a>
     <!-- 
     <a href="{{route('user.pdf')}}" class="btn btn-danger">Generate
         PDF</a> -->
@@ -161,18 +164,18 @@
             </div>
             <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
             <div class="">
-                <p>الاسم:{{$employee->name}}</p>
-                <p>الرقم المدني:{{$employee->civilId}}</p>
-                <p>رقم الملف:{{$employee->fileNo}}</p>
+                <p>الاسم:{{$employee_info->employee->name}}</p>
+                <p>الرقم المدني:{{$employee_info->employee->civilId}}</p>
+                <p>رقم الملف:{{$employee_info->employee->fileNo}}</p>
                 <p class="">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
                     لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
 
                 <div class=" flex space-x">
                     <div class="mx-4">من الفترة</div>
-                    <div class="">1 / 1 / 2023 </div>
+                    <div class="">{{$firstValue}} </div>
                     <div class="mx-4"> إلى</div>
-                    <div class=""> 31 / 1 / 2023</div>
+                    <div class="">{{$lastValue}} </div>
                 </div>
                 <p class="mt-4">وذلك لإجراء اللازم</p>
                 <p>مع أطيب التمنيات،،،</p>
@@ -203,18 +206,19 @@
             </div>
             <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
             <div class="">
-                <p>الاسم:{{$employee->name}}</p>
-                <p>الرقم المدني:{{$employee->civilId}}</p>
-                <p>رقم الملف:{{$employee->fileNo}}</p>
+                <p>الاسم:{{$employee_info->employee->name}}</p>
+                <p>الرقم المدني:{{$employee_info->employee->civilId}}</p>
+                <p>رقم الملف:{{$employee_info->employee->fileNo}}</p>
+
                 <p class="">بالإشارة إلى الموضوع أعلاه ، نرسل لكم جدول بأسم الموظف الذي لديه تكليف بمهمات خارج مقر
                     العمل
                     لقسم (الوقاية ) إدارة صيانة محطات التحويل الرئيسية </p>
 
                 <div class=" flex space-x">
                     <div class="mx-4">من الفترة</div>
-                    <div class="">1 / 1 / 2023 </div>
+                    <div class="">{{$firstValue}} </div>
                     <div class="mx-4"> إلى</div>
-                    <div class=""> 31 / 1 / 2023</div>
+                    <div class="">{{$lastValue}} </div>
                 </div>
                 <p class="mt-4">وذلك لإجراء اللازم</p>
                 <p>مع أطيب التمنيات،،،</p>
@@ -243,9 +247,10 @@
         </div>
         <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
         <div class="">
-            <p>الاسم:{{$employee->name}}</p>
-            <p>الرقم المدني:{{$employee->civilId}}</p>
-            <p>رقم الملف:{{$employee->fileNo}}</p>
+            <p>الاسم:{{$employee_info->employee->name}}</p>
+            <p>الرقم المدني:{{$employee_info->employee->civilId}}</p>
+            <p>رقم الملف:{{$employee_info->employee->fileNo}}</p>
+
             <table id="tableId" class="table  text-center table-bordered  table-hover table-responsive">
                 <thead>
                     <tr>
@@ -259,8 +264,7 @@
                 @php
                 $i = 0;
                 @endphp
-                @isset($unique_dates)
-                @foreach($unique_dates as $date)
+                @foreach($employee_takleef as $x)
 
                 <tbody>
                     <tr>
@@ -269,7 +273,7 @@
                         @endphp
 
                         <td>{{$i}}</td>
-                        @switch( \Carbon\Carbon::parse($date)->englishDayOfWeek)
+                        @switch( \Carbon\Carbon::parse($x->date)->englishDayOfWeek)
 
                         @case('Sunday')
 
@@ -309,26 +313,14 @@
                         @break
                         @endswitch
 
-                        <td>{{$date}}</td>
+                        <td>{{$x->date}}</td>
 
-                        @if(in_array($date,$selectedDates1))
-                        <td>
-
-                            بداية الدوام
-                        </td>
-                        @else
-                        <td>-</td>
-                        @endif
-                        @if(in_array($date,$selectedDates2))
-                        <td> نهاية الدوام</td>
-                        @else
-                        <td>-</td>
-                        @endif
+                        <td>{{$x->employee_in}}</td>
+                        <td>{{$x->employee_out}}</td>
                     </tr>
 
                 </tbody>
                 @endforeach
-                @endisset
 
             </table>
             <div class="row mt-5">

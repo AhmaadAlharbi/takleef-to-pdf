@@ -14,4 +14,8 @@ class Emplopyee extends Model
         'civilId',
         'fileNo'
     ];
+    public function takleefList()
+    {
+        return $this->hasMany(TakleefList::class, 'user_id');
+    }
 }

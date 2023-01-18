@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DateContoller;
+use App\Http\Controllers\TakleefListController;
 use Illuminate\Support\Facades\Route;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -21,15 +22,15 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/dates-shift-a', [DateContoller::class, 'shiftA']);
-Route::get('/dates-shift-b', [DateContoller::class, 'shiftB']);
-Route::get('/dates-shift-c', [DateContoller::class, 'shiftC']);
-Route::get('/dates-shift-d', [DateContoller::class, 'shiftD']);
-Route::get('/dates', [DateContoller::class, 'publicShift']);
-Route::get('/takleef-december', [DateContoller::class, 'december']);
-Route::post('/submit', [DateContoller::class, 'submit']);
-Route::post('/submit/december', [DateContoller::class, 'submitDecember']);
-Route::post('/add-new-employee', [DateContoller::class, 'addEmployee'])->name('addEmployee');
-Route::get('/edit-date/{id}', [DateContoller::class, 'editDate'])->name('editDate');
-Route::post('/update-date/{id}', [DateContoller::class, 'updateDate'])->name('updateDate');
+Route::get('/dates-shift-a', [TakleefListController::class, 'shiftA']);
+Route::get('/dates-shift-b', [TakleefListController::class, 'shiftB']);
+Route::get('/dates-shift-c', [TakleefListController::class, 'shiftC']);
+Route::get('/dates-shift-d', [TakleefListController::class, 'shiftD']);
+Route::get('/dates', [TakleefListController::class, 'publicShift']);
+Route::get('/takleef-december', [TakleefListController::class, 'december']);
+Route::post('/submit', [TakleefListController::class, 'submit']);
+Route::post('/submit/december', [TakleefListController::class, 'submitDecember']);
+Route::post('/add-new-employee', [TakleefListController::class, 'addEmployee'])->name('addEmployee');
+Route::get('/edit-date/{id}', [TakleefListController::class, 'editDate'])->name('editDate');
+Route::post('/update-date/{id}', [TakleefListController::class, 'updateDate'])->name('updateDate');
 Route::get('/generatepdf', [DateContoller::class, 'generatepdf'])->name('user.pdf');
