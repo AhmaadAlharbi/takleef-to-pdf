@@ -38,6 +38,7 @@
     </div>
     @endif
     <h1 class="text-center mt-4">{{$title}}</h1>
+
     <form method="POST" action="/search">
         @csrf
         <div class="row d-flex justify-content-center align-items-center container text-center mx-auto">

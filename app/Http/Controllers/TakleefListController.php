@@ -160,18 +160,40 @@ class TakleefListController extends Controller
             $firstValue = reset($dates)->format('Y-m-d');;
             $lastValue  =  end($dates)->format('Y-m-d');;
             foreach ($selectedDates1 as $date) {
-                $takleef = TakleefList::firstOrCreate([
+                $takleef = TakleefList::where([
                     'employee_id' => $employee->id,
                     'date' => $date,
-                    'employee_in' => 'بداية الدوام',
-                ]);
+                ])->first();
+                if ($takleef) {
+                    if (!is_null($takleef->employee_out)) {
+                        $takleef->employee_in = 'بداية الدوام';
+                        $takleef->save();
+                    }
+                } else {
+                    TakleefList::create([
+                        'employee_id' => $employee->id,
+                        'date' => $date,
+                        'employee_in' => 'بداية الدوام',
+                    ]);
+                }
             }
-            foreach ($selectedDates2 as $date) {
-                $takleef = TakleefList::firstOrCreate([
+            foreach ($selectedDates1 as $date) {
+                $takleef = TakleefList::where([
                     'employee_id' => $employee->id,
                     'date' => $date,
-                    'employee_out' => 'نهاية الدوام',
-                ]);
+                ])->first();
+                if ($takleef) {
+                    if (!is_null($takleef->employee_in)) {
+                        $takleef->employee_out = 'نهاية الدوام';
+                        $takleef->save();
+                    }
+                } else {
+                    TakleefList::create([
+                        'employee_id' => $employee->id,
+                        'date' => $date,
+                        'employee_in' => 'بداية الدوام',
+                    ]);
+                }
             }
             $request->session()->put('unique_dates', $unique_dates);
             $date = Carbon::now();
@@ -194,20 +216,35 @@ class TakleefListController extends Controller
     }
     public function getTakleef(Request $request)
     {
+        $data = $request->validate(
+            [
+                'fileNo' => 'required',
+
+            ],
+            [
+
+                'fileNo' => 'يرجى ادخال رقم الملف الخاص بالموظف'
+            ]
+        );
         $fileNo = $request->fileNo;
         $employee_info =  Emplopyee::where('fileNo', $fileNo)->first();
-        $currentMonth = 1; //September
-        $currentYear = 2023;
-        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
-            $dates[] = $date->format('Y-m-d');
+        if ($employee_info) {
+            $currentMonth = 1; //September
+            $currentYear = 2023;
+            $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+            for ($i = 1; $i <= $daysInMonth; $i++) {
+                $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
+                $dates[] = $date->format('Y-m-d');
+            }
+            $attendance = array();
+            foreach ($dates as $date) {
+                $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
+            }
+            return view('editDate', compact('dates', 'employee_info', 'attendance', 'fileNo'));
+        } else {
+            session()->flash('error', '   رقم الملف غير موجود ');
+            return redirect()->back();
         }
-        $attendance = array();
-        foreach ($dates as $date) {
-            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
-        }
-        return view('editDate', compact('dates', 'employee_info', 'attendance', 'fileNo'));
     }
     public function update(Request $request, $id)
     {
