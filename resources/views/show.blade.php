@@ -344,6 +344,30 @@
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
         </script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script>
+            window.addEventListener('load', function () {
+        var success_message = "{{ session()->get('success') }}";
+        var error_message = "{{ session()->get('error') }}";
+        if (success_message) {
+            Swal.fire({
+                icon: 'success',
+                title: success_message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        if (error_message) {
+            Swal.fire({
+                icon: 'error',
+                title: error_message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+        </script>
+
 </body>
 
 </html>

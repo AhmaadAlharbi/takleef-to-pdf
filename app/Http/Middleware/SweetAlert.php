@@ -24,6 +24,14 @@ class SweetAlert
                 'type' => 'success'
             ]);
         }
+        if (session()->has('error')) {
+            $notification = session()->get('error');
+            session()->forget('error');
+            return response()->json([
+                'message' => $notification,
+                'type' => 'error'
+            ]);
+        }
 
         return $next($request);
     }

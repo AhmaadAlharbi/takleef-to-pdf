@@ -180,6 +180,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        window.addEventListener('load', function () {
+            var success_message = "{{ session()->get('success') }}";
+            var error_message = "{{ session()->get('error') }}";
+            if (success_message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: success_message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (error_message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: error_message,
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

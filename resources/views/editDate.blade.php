@@ -32,9 +32,12 @@
                 <div class="col-md-5">
                     <img src="{{ asset('images/booking.svg') }}" alt="Image">
 
-                    <p>الاسم : {{$employee_info->name}}</p>
-                    <p>الرقم المدني : {{$employee_info->civilId}}</p>
-                    <p>رقم الملف : {{$employee_info->fileNo}}</p>
+                    <label>الاسم</label>
+                    <input name="name" type="text" class="form-control my-2" value="{{$employee_info->name}}">
+                    <label>الرقم المدني</label>
+                    <input name="civilId" type="text" value=" {{$employee_info->civilId}}" class="form-control my-2">
+                    <label>رقم الملف </label>
+                    <input name="fileNo" type="text" class="form-control my-2" value="{{$employee_info->fileNo}}">
                     <button type="submit" class="btn btn-dark  btn-lg mt-2" data-toggle="modal"
                         data-target="#exampleModal">
                         تعديل

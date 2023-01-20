@@ -208,9 +208,11 @@ class TakleefListController extends Controller
             $employee_info = TakleefList::where('employee_id', $employee->id)->first();
             // $firstDate = December::where('fileNo', $fileNo)->orderBy('date', 'asc')->value('date');
             // $lastDate = December::where('fileNo', $fileNo)->orderByDesc('date')->value('date');
+            session()->flash('success', 'Done');
+
             return view('show', compact('employee_takleef', 'employee_info', 'firstValue', 'lastValue'));
         } else {
-            session()->flash('error', 'لايوجد موظف يحمل رقم الملف المدخل');
+            session()->flash('error', ' يرجى التأكد من ادخال رقم الملف الخاص بالموظف بالشكل الصحيح');
             return back();
         }
     }
@@ -246,9 +248,135 @@ class TakleefListController extends Controller
             return redirect()->back();
         }
     }
+
+    public function show($id)
+    {
+        $employee = Emplopyee::findOrFail($id);
+        $employee_takleef = TakleefList::where('employee_id', $id)
+            ->where(function ($query) {
+                $query->whereNotNull('employee_in')
+                    ->orWhereNotNull('employee_out');
+            })
+            ->orderBy('date')
+            ->get();
+        $currentMonth = 1; //September
+        $currentYear = 2023;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
+        }
+        $firstValue = reset($dates)->format('Y-m-d');;
+        $lastValue  =  end($dates)->format('Y-m-d');;
+        $employee_info = TakleefList::where('employee_id', $employee->id)->first();
+        return view('show', compact('employee_takleef', 'employee_info', 'firstValue', 'lastValue'));
+    }
+    public function edit($id)
+    {
+        $employee_info =  Emplopyee::where('id', $id)->first();
+        $currentMonth = 1; //September
+        $currentYear = 2023;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
+            $dates[] = $date->format('Y-m-d');
+        }
+        $attendance = array();
+        foreach ($dates as $date) {
+            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
+        }
+        return view('editDate', compact('dates', 'employee_info', 'attendance'));
+    }
+    private function updateAttendance($attendance, $input, $column, $value)
+    {
+        if (!empty($input)) {
+            $attendance->each(function ($record) use ($input, $column, $value) {
+                if (in_array($record->date, $input)) {
+                    $record->update([$column => $value]);
+                } else {
+                    $record->update([$column => null]);
+                }
+            });
+        } else {
+            TakleefList::whereIn('date', $attendance->pluck('date'))->update(['employee_in' => null]);
+        }
+    }
+    private function createNewAttendanceRecords($employeeId, $input, $column, $value)
+    {
+        if (!empty($input)) {
+            foreach ($input as $date) {
+                $attendance = TakleefList::where('employee_id', $employeeId)->where('date', $date)->first();
+                if (!$attendance) {
+                    TakleefList::create([
+                        'employee_id' => $employeeId,
+                        'date' => $date,
+                        $column => $value,
+                    ]);
+                }
+            }
+        }
+    }
+
     public function update(Request $request, $id)
     {
-        $employee_db = Emplopyee::findOrFail($id);
+        // Retrieve the employee information
+        $employee = Emplopyee::findOrFail($id);
+        // Update employee information if there are any changes
+        $employee->update($request->only(['name', 'civilId', 'fileNo']));
+        // Retrieve the current month and year
+        $currentMonth = 1;
+        $currentYear = 2023;
+        // Retrieve the dates of the current month
+        $dates = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth;
+        $dates = array_map(function ($day) use ($currentYear, $currentMonth) {
+            return Carbon::createFromDate($currentYear, $currentMonth, $day)->format('Y-m-d');
+        }, range(1, $dates));
+        // Retrieve attendance records
+        $attendance = TakleefList::where('employee_id', $employee->id)->whereIn('date', $dates)->get();
+        // Update attendance records
+        $this->updateAttendance($attendance, $request->input('employee_in'), 'employee_in', 'بداية الدوام');
+        $this->updateAttendance($attendance, $request->input('employee_out'), 'employee_out', 'نهاية الدوام');
+        // Create new attendance records if necessary
+        $this->createNewAttendanceRecords($employee->id, $request->input('employee_in'), 'employee_in', 'بداية الدوام');
+        $this->createNewAttendanceRecords($employee->id, $request->input('employee_out'), 'employee_out', 'نهاية الدوام');
+        return redirect('/edit-takleef' . '/' . $id)->withInput()->with('success', 'تم التعديل بنجاح');
+    }
+}
+
+
+/*****
+ * 
+ * old update function before refactoring
+ *  $name = $request->input('name');
+        $civilId = $request->input('civilId');
+        $fileNo = $request->input('fileNo');
+        $employee_info = Emplopyee::findOrFail($id);
+        $currentMonth = 1; //September
+        $currentYear = 2023;
+        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
+            $dates[] = $date->format('Y-m-d');
+        }
+        $attendance = array();
+        foreach ($dates as $date) {
+            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
+        }
+        //check if there is update on employee data
+        $updatedData = [];
+        if ($employee_info->name !== $name) {
+            $updatedData['name'] = $name;
+        }
+        if ($employee_info->civilId !== $civilId) {
+            $updatedData['civilId'] = $civilId;
+        }
+        if ($employee_info->fileNo !== $fileNo) {
+            $updatedData['fileNo'] = $fileNo;
+        }
+
+        if (!empty($updatedData)) {
+            $employee_info->update($updatedData);
+        }
+        //retrive dates of employee takleef and comare it with the input 
         $takleef_db = TakleefList::where('employee_id', $id)->get();
         $employee_in = $request->input('employee_in');
         $employee_out = $request->input('employee_out');
@@ -313,43 +441,6 @@ class TakleefListController extends Controller
             }
         }
 
-        return back()->with('success', 'تم التعديل بنجاح');
-    }
-    public function show($id)
-    {
-        $employee = Emplopyee::findOrFail($id);
-        $employee_takleef = TakleefList::where('employee_id', $id)
-            ->where(function ($query) {
-                $query->whereNotNull('employee_in')
-                    ->orWhereNotNull('employee_out');
-            })
-            ->orderBy('date')
-            ->get();
-        $currentMonth = 1; //September
-        $currentYear = 2023;
-        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            $dates[] = Carbon::createFromDate($currentYear, $currentMonth, $i);
-        }
-        $firstValue = reset($dates)->format('Y-m-d');;
-        $lastValue  =  end($dates)->format('Y-m-d');;
-        $employee_info = TakleefList::where('employee_id', $employee->id)->first();
-        return view('show', compact('employee_takleef', 'employee_info', 'firstValue', 'lastValue'));
-    }
-    public function edit($id)
-    {
-        $employee_info =  Emplopyee::where('id', $id)->first();
-        $currentMonth = 1; //September
-        $currentYear = 2023;
-        $daysInMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->daysInMonth; // Get the number of days in September
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
-            $dates[] = $date->format('Y-m-d');
-        }
-        $attendance = array();
-        foreach ($dates as $date) {
-            $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
-        }
-        return view('editDate', compact('dates', 'employee_info', 'attendance'));
-    }
-}
+        return redirect('/edit-takleef' . '/' . $id)->withInput()->with('success', 'تم التعديل بنجاح')->with(compact('dates', 'employee_info', 'attendance'));
+ * 
+ */
