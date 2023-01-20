@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
     <div class="container">
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -138,6 +139,21 @@
         </form>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        window.addEventListener('load', function () {
+        var message = "{{ session()->get('success') }}";
+        if (message) {
+            Swal.fire({
+                icon: 'success',
+                title: message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+    </script>
+
 </body>
 
 </html>

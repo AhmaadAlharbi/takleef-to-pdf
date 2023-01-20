@@ -313,7 +313,7 @@ class TakleefListController extends Controller
             }
         }
 
-        return redirect('/')->with('success', 'Attendance updated successfully');
+        return back()->with('success', 'تم التعديل بنجاح');
     }
     public function show($id)
     {
