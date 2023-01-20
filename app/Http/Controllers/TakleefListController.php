@@ -177,7 +177,7 @@ class TakleefListController extends Controller
                     ]);
                 }
             }
-            foreach ($selectedDates1 as $date) {
+            foreach ($selectedDates2 as $date) {
                 $takleef = TakleefList::where([
                     'employee_id' => $employee->id,
                     'date' => $date,
@@ -191,7 +191,7 @@ class TakleefListController extends Controller
                     TakleefList::create([
                         'employee_id' => $employee->id,
                         'date' => $date,
-                        'employee_in' => 'بداية الدوام',
+                        'employee_out' => 'نهاية الدوام',
                     ]);
                 }
             }
