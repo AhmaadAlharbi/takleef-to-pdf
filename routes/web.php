@@ -35,4 +35,4 @@ Route::post('/update/{id}', [TakleefListController::class, 'update'])->name('upd
 // Route::get('/takleef-december', [TakleefListController::class, 'december']);
 Route::post('/submit', [TakleefListController::class, 'submit']);
 // Route::post('/submit/december', [TakleefListController::class, 'submitDecember']);
-Route::post('/add-new-employee', [TakleefListController::class, 'addEmployee'])->name('addEmployee');
+Route::post('/add-new-employee', [DateContoller::class, 'addEmployee'])->name('addEmployee');

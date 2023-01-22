@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>.</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -63,7 +64,11 @@
                 display: none;
             }
 
-
+            .footer-img {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
 
             .page:last-of-type {
                 page-break-after: avoid;
@@ -147,9 +152,9 @@
     <div class="row container border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">
-            <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
+            <h5 style="margin-top:40px;" class=" font-weight-bold mb-3">قطاع شبكات النقل الكهربائية</h5>
             <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
-            <div class="row mb-3 ">
+            <div class="row mb-3 mt-3 ">
                 <div class="col">
                     <h5>السيد / مدير ادارة شؤون العاملين</>
                         <h5>تحية طيبة وبعد</h5>
@@ -159,7 +164,7 @@
                     <h5>المحترم</h5>
                 </div>
             </div>
-            <h5 class="font-weight-bold mb-3">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
+            <h5 class="font-weight-bold mb-3 mt-4">الموضوع/ تكليف بمهمة خارج مقر العمل</h5>
             <div class="">
                 <p>الاسم:{{$employee_info->employee->name}}</p>
                 <p>الرقم المدني:{{$employee_info->employee->civilId}}</p>
@@ -182,14 +187,14 @@
 
             </div>
             <div class="footer-img">
-                <img src="{{ asset('images/footer.png') }}" style="margin-top:90px;" alt="Image">
+                <img src="{{ asset('images/footer.png') }}" style="" alt="Image">
             </div>
         </div>
 
 
         {{-- page2 --}}
         <div class="row page page-break mx-auto d-block">
-            <img style="margin-top=50px" src="{{ asset('images/header2.png') }}" alt="Image">
+            <img style="margin-top:30px;" src="{{ asset('images/header2.png') }}" alt="Image">
             <h5 class=" font-weight-bold mb-3 mt-5">قطاع شبكات النقل الكهربائية</h5>
             <h5 class="font-weight-bold mb-3">تكليف بمهمة خارج مقر العمل</h5>
             <div class="row mb-3 ">
@@ -340,7 +345,8 @@
                 }
             }
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
