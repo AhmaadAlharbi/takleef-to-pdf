@@ -17,17 +17,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    // return view('welcome');
-    return view('home');
-});
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return view('home');
+// });
 
 Route::get('/dates-shift-a', [TakleefListController::class, 'shiftA']);
 Route::get('/dates-shift-b', [TakleefListController::class, 'shiftB']);
 Route::get('/dates-shift-c', [TakleefListController::class, 'shiftC']);
 Route::get('/dates-shift-d', [TakleefListController::class, 'shiftD']);
 Route::get('/dates', [TakleefListController::class, 'publicShift']);
-Route::get('/takleef-list', [TakleefListController::class, 'takleefList']);
+Route::get('/', [TakleefListController::class, 'takleefList']);
 Route::get('/show/{id}', [TakleefListController::class, 'show']);
 Route::get('/edit-takleef/{id}', [TakleefListController::class, 'edit'])->name('edit-takleef');
 Route::post('/search', [TakleefListController::class, 'getTakleef'])->name('getTakleef');

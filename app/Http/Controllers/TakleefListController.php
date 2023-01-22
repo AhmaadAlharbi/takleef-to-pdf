@@ -324,6 +324,16 @@ class TakleefListController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'civilId' => 'required',
+            'fileNo' => 'required'
+        ], [
+            'name.required' => 'يرجى ادخال اسم الموظف',
+            'civilId.required' => 'يرجى ادخال الرقم المدني للموظف',
+            'fileNo.required' => 'يرجى ادخال رقم الملف للموظف'
+        ]);
+
         $name = $request->input('name');
         $civilId = $request->input('civilId');
         $fileNo = $request->input('fileNo');

@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>.</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
-        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;900&display=swap" rel="stylesheet">
@@ -38,8 +37,7 @@
                     <input name="civilId" type="text" value=" {{$employee_info->civilId}}" class="form-control my-2">
                     <label>رقم الملف </label>
                     <input name="fileNo" type="text" class="form-control my-2" value="{{$employee_info->fileNo}}">
-                    <button type="submit" class="btn btn-dark  btn-lg mt-2" data-toggle="modal"
-                        data-target="#exampleModal">
+                    <button type="submit" class="btn btn-dark  btn-lg mt-2" data-toggle="modal" data-target="#exampleModal">
                         تعديل
                     </button>
                     <a href="/show/{{$employee_info->id}}" class="btn btn-success btn-lg mt-2">SHOW</a>
@@ -144,17 +142,26 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
-        window.addEventListener('load', function () {
-        var message = "{{ session()->get('success') }}";
-        if (message) {
-            Swal.fire({
-                icon: 'success',
-                title: message,
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-    });
+        window.addEventListener('load', function() {
+            var success_message = "{{ session()->get('success') }}";
+            var error_message = "{{ session()->get('error') }}";
+            if (success_message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: success_message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (error_message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: error_message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     </script>
 
 </body>
