@@ -315,10 +315,9 @@
                         @break
                         @endswitch
 
-                        <td>{{$x->date}}</td>
-
-                        <td>{{$x->employee_in}}</td>
-                        <td>{{$x->employee_out}}</td>
+                        <td>{{ $x->date }}</td>
+                        <td>{{ isset($x->employee_in) ? $x->employee_in : '-' }}</td>
+                        <td>{{ isset($x->employee_out) ? $x->employee_out : '-' }}</td>
                     </tr>
 
                 </tbody>
