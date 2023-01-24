@@ -65,10 +65,11 @@
             }
 
             .footer-img {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
+                margin-top: 100px;
+
             }
+
+
 
             .page:last-of-type {
                 page-break-after: avoid;
