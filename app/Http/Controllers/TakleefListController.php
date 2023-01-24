@@ -369,65 +369,35 @@ class TakleefListController extends Controller
         $employee_in = $request->input('employee_in');
         $employee_out = $request->input('employee_out');
         // check if employee_in array is not empty
-        if (!empty($employee_in)) {
-            foreach ($takleef_db as $db_date) {
-                $employee_in_value = in_array($db_date->date, $employee_in) ? 'بداية الدوام' : null;
-                TakleefList::where('employee_id', $id)->where('date', $db_date->date)
-                    ->update(['employee_in' => $employee_in_value]);
-            }
-        } else {
-            TakleefList::where('employee_id', $id)->update(['employee_in' => null]);
-        }
-        // check if employee_out array is not empty
-        if (!empty($employee_out)) {
-            foreach ($takleef_db as $db_date) {
-                $employee_out_value = in_array($db_date->date, $employee_out) ? 'نهاية الدوام' : null;
-                TakleefList::where('employee_id', $id)->where('date', $db_date->date)
-                    ->update(['employee_out' => $employee_out_value]);
-            }
-        } else {
-            TakleefList::where('employee_id', $id)->update(['employee_out' => null]);
-        }
-        // check if employee_in array is not empty
-        if (!empty($employee_in)) {
-            foreach ($employee_in as $date) {
+        if (!empty($employee_in) || !empty($employee_out)) {
+            $employee_in = $employee_in ?: array();
+            $employee_out = $employee_out ?: array();
+            $dates = array_merge($employee_in, $employee_out);
+            TakleefList::where('employee_id', $id)->update(['employee_in' => null, 'employee_out' => null]);
+
+            foreach ($dates as $date) {
                 $attend = TakleefList::where('employee_id', $id)->where('date', $date)->first();
                 if (!$attend) {
                     $attend = TakleefList::create([
                         'employee_id' => $id,
                         'date' => $date,
-                        'employee_in' => 'بداية الدوام',
-
+                        'employee_in' => in_array($date, $employee_in) ? 'بداية الدوام' : null,
+                        'employee_out' => in_array($date, $employee_out) ? 'نهاية الدوام' : null
+                    ]);
+                } else {
+                    $attend->update([
+                        'employee_in' => in_array($date, $employee_in) ? 'بداية الدوام' : null,
+                        'employee_out' => in_array($date, $employee_out) ? 'نهاية الدوام' : null
                     ]);
                 }
             }
         }
-        // check if employee_out array is not empty
-        ////
-        if (!empty($employee_out)) {
 
-            foreach ($employee_out as $date) {
-                $attend = TakleefList::where('employee_id', $id)->where('date', $date)->first();
-                if (!$attend) {
-                    $attend = TakleefList::create([
-                        'employee_id' => $id,
-                        'date' => $date,
-                        'employee_out' => 'نهاية الدوام'
-                    ]);
-                }
-            }
-        }
         if (empty($employee_in) && empty($employee_out)) {
             TakleefList::where('employee_id', $id)->update(['employee_in' => null, 'employee_out' => null]);
             TakleefList::where('employee_id', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
-            return redirect('/')->with('success', 'Attendance updated successfully');
         }
-        //delete if both of employee_in and employee_out are empty and delete it
-        foreach ($takleef_db as $takleef) {
-            if ($takleef->employee_in === null && $takleef->employee_out === null) {
-                $takleef->delete();
-            }
-        }
+
 
         return redirect('/edit-takleef' . '/' . $id)->withInput()->with('success', 'تم التعديل بنجاح')->with(compact('dates', 'employee_info', 'attendance'));
     }
