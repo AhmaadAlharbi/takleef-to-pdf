@@ -368,6 +368,11 @@ class TakleefListController extends Controller
         $takleef_db = TakleefList::where('employee_id', $id)->get();
         $employee_in = $request->input('employee_in');
         $employee_out = $request->input('employee_out');
+        if (empty($employee_in) && empty($employee_out)) {
+            TakleefList::where('employee_id', $id)->update(['employee_in' => null, 'employee_out' => null]);
+            TakleefList::where('employee_id', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
+        }
+
         // check if employee_in array is not empty
         if (!empty($employee_in) || !empty($employee_out)) {
             $employee_in = $employee_in ?: array();
@@ -393,10 +398,6 @@ class TakleefListController extends Controller
             }
         }
 
-        if (empty($employee_in) && empty($employee_out)) {
-            TakleefList::where('employee_id', $id)->update(['employee_in' => null, 'employee_out' => null]);
-            TakleefList::where('employee_id', $id)->whereNull('employee_in')->whereNull('employee_out')->delete();
-        }
 
 
         return redirect('/edit-takleef' . '/' . $id)->withInput()->with('success', 'تم التعديل بنجاح')->with(compact('dates', 'employee_info', 'attendance'));
