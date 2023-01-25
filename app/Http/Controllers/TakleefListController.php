@@ -238,6 +238,14 @@ class TakleefListController extends Controller
                 $date = Carbon::createFromDate($currentYear, $currentMonth, $i);
                 $dates[] = $date->format('Y-m-d');
             }
+            //to show all dates from current month to specific month
+            // for ($month = 3; $month <= 9; $month++) {
+            //     $daysInMonth = Carbon::createFromDate($currentYear, $month, 1)->daysInMonth;
+            //     for ($i = 1; $i <= $daysInMonth; $i++) {
+            //         $date = Carbon::createFromDate($currentYear, $month, $i);
+            //         $dates[] = $date->format('Y-m-d');
+            //     }
+            // }
             $attendance = array();
             foreach ($dates as $date) {
                 $attendance[$date] = TakleefList::where('employee_id', $employee_info->id)->whereDate('date', $date)->first();
