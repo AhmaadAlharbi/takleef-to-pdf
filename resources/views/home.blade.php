@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -34,13 +34,60 @@
             <img src="{{ asset('images/hero-welcome.svg') }}" alt="Image">
             <h1>تكاليف قسم الوقاية</h1>
             <div class="mt-5">
-                <a href="/dates-shift-a" class="btn btn-outline-primary">Shift A</a>
+                <div class="" role="group" aria-label="Basic example">
+                    <div class="col">
+                        <a href="/search/1"
+                            class="btn {{ Carbon\Carbon::now()->month == 1 ? 'btn-primary' : 'btn-dark' }}">يناير
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/2"
+                            class="btn {{ Carbon\Carbon::now()->month == 2 ? 'btn-primary' : 'btn-dark' }}">فبراير
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/3"
+                            class="btn {{ Carbon\Carbon::now()->month == 3 ? 'btn-primary' : 'btn-dark' }}">مارس
+                            {{Carbon\Carbon::now()->year}}</a>
+                    </div>
+                    <div class="col mt-3">
+                        <a href="/search/4"
+                            class="btn {{ Carbon\Carbon::now()->month == 4 ? 'btn-primary' : 'btn-dark' }}">ابريل
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/5"
+                            class="btn {{ Carbon\Carbon::now()->month == 5 ? 'btn-primary' : 'btn-dark' }}">مايو
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/6"
+                            class="btn {{ Carbon\Carbon::now()->month == 6 ? 'btn-primary' : 'btn-dark' }}">يونيو
+                            {{Carbon\Carbon::now()->year}}</a>
+                    </div>
+                    <div class="col mt-3">
+                        <a href="/search/7"
+                            class="btn {{ Carbon\Carbon::now()->month == 7 ? 'btn-primary' : 'btn-dark' }}">يوليو
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/8"
+                            class="btn {{ Carbon\Carbon::now()->month == 8 ? 'btn-primary' : 'btn-dark' }}">أغسطس
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/9"
+                            class="btn {{ Carbon\Carbon::now()->month == 9 ? 'btn-primary' : 'btn-dark' }}">سبتمبر
+                            {{Carbon\Carbon::now()->year}}</a>
+                    </div>
+                    <div class="col mt-3">
+                        <a href="/search/10"
+                            class="btn {{ Carbon\Carbon::now()->month == 10 ? 'btn-primary' : 'btn-dark' }}">اكتوبر
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/11"
+                            class="btn {{ Carbon\Carbon::now()->month == 11 ? 'btn-primary' : 'btn-dark' }}">نوفمبر
+                            {{Carbon\Carbon::now()->year}}</a>
+                        <a href="/search/12"
+                            class="btn {{ Carbon\Carbon::now()->month == 12 ? 'btn-primary' : 'btn-dark' }}">ديسمبر
+                            {{Carbon\Carbon::now()->year}}</a>
+                    </div>
+
+                </div>
+                {{-- <a href="/dates-shift-a" class="btn btn-outline-primary">Shift A</a>
                 <a href="/dates-shift-b" class="btn btn-outline-secondary">Shift B</a>
                 <a href="/dates-shift-c" class="btn btn-outline-dark">Shift C</a>
                 <a href="/dates-shift-d" class="btn btn-outline-success">Shift D</a>
-                <a href="/dates" class="btn btn-outline-danger">غير محدد</a>
+                <a href="/dates" class="btn btn-outline-danger">غير محدد</a> --}}
                 {{-- <a href="/takleef-december" class="btn btn-danger">شهر ديسمبر 12</a> --}}
-                <a href="/takleef-list" class="btn btn-danger">عرض تكاليف شهر 1 أو التعديل عليها</a>
+                {{-- <a href="/takleef-list" class="btn btn-danger">عرض تكاليف شهر 1 أو التعديل عليها</a> --}}
             </div>
         </div>
 

@@ -59,6 +59,7 @@
 
         @media print {
 
+
             button,
             .edit-btn {
                 display: none;
@@ -147,9 +148,10 @@
 
     {{-- <button class="btn btn-danger" onclick="generatePDF()">Generate PDF</button> --}}
     <button onclick="window.print()">حفظ PDF</button>
-    <a href="{{route('edit-takleef',['id'=>$employee_info->employee->id])}}" class="btn edit-btn btn-primary">
-        تعديل
-    </a>
+
+    <a href="{{route('edit-takleef',['id'=>$employee_info->employee->id,'month'=>$month])}}"
+        class="btn edit-btn btn-primary">تعديل</a>
+
     <div class="row container border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
             <img class="header-img" src="{{ asset('images/header.png') }}" alt="Image">

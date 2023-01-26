@@ -40,7 +40,7 @@
     @endif
     <h1 class="text-center mt-4">{{$title}}</h1>
 
-    <form method="POST" action="/search">
+    <form method="POST" action="/search/{{$month}}">
         @csrf
         <div class="row d-flex justify-content-center align-items-center container text-center mx-auto">
             <div class="col-md-6">
@@ -54,7 +54,10 @@
                         data-target="#exampleModal">
                         إضافة موظف جديد
                     </button> --}}
-
+                    <!-- Button trigger modal adding a new employee -->
+                    <button type="button" class="btn btn-dark mt-2" data-toggle="modal" data-target="#exampleModal">
+                        إضافة موظف جديد
+                    </button>
 
                 </div>
 

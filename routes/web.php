@@ -17,21 +17,21 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::get('/', function () {
-//     // return view('welcome');
-//     return view('home');
-// });
+Route::get('/', function () {
+    // return view('welcome');
+    return view('home');
+});
 
 Route::get('/dates-shift-a', [TakleefListController::class, 'shiftA']);
 Route::get('/dates-shift-b', [TakleefListController::class, 'shiftB']);
 Route::get('/dates-shift-c', [TakleefListController::class, 'shiftC']);
 Route::get('/dates-shift-d', [TakleefListController::class, 'shiftD']);
 Route::get('/dates', [TakleefListController::class, 'publicShift']);
-Route::get('/', [TakleefListController::class, 'takleefList']);
-Route::get('/show/{id}', [TakleefListController::class, 'show']);
-Route::get('/edit-takleef/{id}', [TakleefListController::class, 'edit'])->name('edit-takleef');
-Route::post('/search', [TakleefListController::class, 'getTakleef'])->name('getTakleef');
-Route::post('/update/{id}', [TakleefListController::class, 'update'])->name('update');
+Route::get('/search/{month}', [TakleefListController::class, 'takleefList']);
+Route::get('/show/{id}/{month}', [TakleefListController::class, 'show']);
+Route::get('/edit-takleef/{id}/{month}', [TakleefListController::class, 'edit'])->name('edit-takleef');
+Route::post('/search/{month}', [TakleefListController::class, 'getTakleef'])->name('getTakleef');
+Route::post('/update/{id}/{month}', [TakleefListController::class, 'update'])->name('update');
 // Route::get('/takleef-december', [TakleefListController::class, 'december']);
 Route::post('/submit', [TakleefListController::class, 'submit']);
 // Route::post('/submit/december', [TakleefListController::class, 'submitDecember']);
