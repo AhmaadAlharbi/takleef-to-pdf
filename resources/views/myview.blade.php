@@ -53,7 +53,6 @@
                     <button type="button" class="btn btn-dark mt-2" data-toggle="modal" data-target="#exampleModal">
                         إضافة موظف جديد
                     </button>
-
                 </div>
 
             </div>

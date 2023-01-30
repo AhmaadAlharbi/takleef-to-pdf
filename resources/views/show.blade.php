@@ -151,6 +151,7 @@
 
     <a href="{{route('edit-takleef',['id'=>$employee_info->employee->id,'month'=>$month])}}"
         class="btn edit-btn btn-primary">تعديل</a>
+    <a href="/" class="btn edit-btn btn-outline-success">الرئيسية</a>
 
     <div class="row container border-dark text-center mx-auto d-block">
         <div id="print" class="row page ">
