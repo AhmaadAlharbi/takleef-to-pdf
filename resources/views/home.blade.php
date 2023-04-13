@@ -31,6 +31,41 @@
     @endif
     <div class="row border px-4 py-2 mt-4 d-flex justify-content-center align-items-center text-center">
         <div class="col">
+            @auth
+            <nav class="navbar navbar-light bg-light ">
+                <span class="navbar-text">
+                    <!-- Responsive Settings Options -->
+                    <div class="pt-4 pb-1 border-t border-gray-200 text-center">
+                        <div class="px-4">
+                            <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                            <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                        </div>
+
+                        <div class="mt-3 space-y-1">
+
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-responsive-nav-link>
+                            </form>
+                        </div>
+                    </div>
+                </span>
+            </nav>
+
+            @endauth
+            @guest
+            <nav class="navbar navbar-light bg-light">
+                <form class="form-inline">
+                    <a href="/login" class="btn btn-outline-success" type="button">تسجيل دخول</a>
+                </form>
+            </nav>
+            @endguest
             <img src="{{ asset('images/hero-welcome.svg') }}" alt="Image">
             <h1>تكاليف قسم الوقاية</h1>
             <div class="mt-5">

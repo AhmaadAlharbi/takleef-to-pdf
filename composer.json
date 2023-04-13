@@ -11,6 +11,7 @@
         "dompdf/dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "khaled.alshamaa/ar-php": "^6.3",
+        "laravel/breeze": "*",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
